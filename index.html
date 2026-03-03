@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="manifest" href="manifest.json">
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0a12">
@@ -301,8 +295,9 @@
         
         /* --- CAÇADA CONTÍNUA (EXPLORAÇÃO) --- */
         .battle-arena.hunt-mode { 
-            background: linear-gradient(rgba(10, 25, 15, 0.5), rgba(0, 10, 5, 0.6)), 
-                        url('assets/gramado.png');
+            /* O gradiente escuro vem primeiro (por cima), a imagem vem depois (por baixo) */
+            background: linear-gradient(rgba(10, 25, 15, 0.5), rgba(0, 10, 5, 0.8)), 
+                        url('https://raw.githubusercontent.com/Sindelitcis/cartas-pokejapa/main/gramado.png');
             background-size: cover; 
             background-position: center;
             border-color: #27ae60; 
@@ -452,6 +447,7 @@
                     </div>
                 </button>
             </div>
+        </div>
 
         <div class="menu-panel">
             <div class="menu-panel-title">🛒 ACAMPAMENTO E SUPRIMENTOS</div>
@@ -1610,35 +1606,6 @@
         const indicator = document.getElementById('scroll-indicator');
         if (indicator && window.scrollY > 30) {
             indicator.classList.remove('visible'); // Esconde ao rolar para baixo
-        }
-    });
-
-    // ==========================================
-    // MOTOR DE INSTALAÇÃO DO APP (PWA)
-    // ==========================================
-    let promptDeInstalacao;
-    const btnInstall = document.getElementById('btn-install');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Impede o Android de mostrar aquele aviso chato na tela toda sozinho
-        e.preventDefault();
-        // Guarda a permissão oficial do celular na memória
-        promptDeInstalacao = e;
-        // Acende o nosso botão laranja e lindo no menu!
-        btnInstall.style.display = 'flex';
-    });
-
-    btnInstall.addEventListener('click', async () => {
-        if (promptDeInstalacao) {
-            // Dispara a janela oficial do celular perguntando se quer instalar
-            promptDeInstalacao.prompt();
-            // Espera a pessoa clicar em "Sim" ou "Não"
-            const { outcome } = await promptDeInstalacao.userChoice;
-            if (outcome === 'accepted') {
-                console.log('Jogador instalou o App!');
-                btnInstall.style.display = 'none'; // Some com o botão depois de instalar
-            }
-            promptDeInstalacao = null; // Limpa a memória
         }
     });
 
