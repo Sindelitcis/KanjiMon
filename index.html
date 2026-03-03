@@ -275,7 +275,12 @@
         @keyframes particleMove { 0% { transform: translate(0, 0) scale(1.5); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
         
         @keyframes packFloat { 0% { transform: translateY(0px) rotateY(0deg); } 50% { transform: translateY(-15px) rotateY(10deg); } 100% { transform: translateY(0px) rotateY(0deg); } }
-        @keyframes packShake { 0%, 100% { transform: translateX(0) rotate(0deg); } 25% { transform: translateX(-15px) rotate(-8deg); } 50% { transform: translateX(15px) rotate(8deg); } 75% { transform: translateX(-15px) rotate(-8deg); } }
+        @keyframes packTension { 
+            0% { transform: scale(1) rotate(0deg); filter: brightness(1); } 
+            40% { transform: scale(1.1) rotate(3deg); filter: brightness(1.3); box-shadow: 0 0 50px var(--gold); } 
+            80% { transform: scale(1.1) rotate(-3deg); filter: brightness(1.6); box-shadow: 0 0 80px var(--gold); } 
+            100% { transform: scale(0.85) rotate(0deg); filter: brightness(2); } 
+        }
         @keyframes energyPulse { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }
 
         /* --- SISTEMA DE BATALHA DINÂMICO (Base Limpa) --- */
@@ -476,13 +481,13 @@
             </button>
         </div>
 
-        <button id="btn-install" class="btn-nintendo" style="display: none; background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 6px 0 #a04000; margin: 0 auto 15px auto; max-width: 450px;">
-            <span class="btn-icon">📱</span>
-            <div class="btn-text">
-            <strong>Instalar KanjiMon</strong>
-            <span>Baixar app para a Tela Inicial</span>
-            </div>
-        </button>
+        <button id="btn-install" class="btn-nintendo" style="display: none; background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 6px 0 #a04000; margin: 0 auto 15px auto; width: 100%; box-sizing: border-box;">
+                <span class="btn-icon">📱</span>
+                <div class="btn-text">
+                    <strong>Instalar KanjiMon</strong>
+                    <span>Baixar app para a Tela Inicial</span>
+                </div>
+            </button>
         
     </div>
 
@@ -955,10 +960,14 @@
         pack.onclick = () => {
             pack.onclick = null; // Trava contra duplo clique
             hint.style.display = "none"; // Some com o texto de ajuda
-            vibrar([100, 50, 100]); // Tremidinha
-            pack.style.animation = "packShake 0.1s infinite"; // Pacote treme absurdamente
             
-            // Depois de meio segundo tremendo, ele explode
+            // Vibração "Nintendo": Fraca, Média, Forte (Crescendo)
+            vibrar([40, 100, 80, 100, 200]); 
+            
+            // Nova animação: Infla, brilha, inclina e encolhe antes de estourar!
+            pack.style.animation = "packTension 0.7s forwards ease-in-out"; 
+            
+            // Depois de 0.7 segundos construindo tensão, ele explode o clarão branco
             setTimeout(() => {
                 const flash = document.getElementById("flash"); flash.style.opacity = 1;
                 const cx = window.innerWidth / 2; const cy = window.innerHeight / 2; const mobileAmount = window.innerWidth < 600 ? 20 : 40;
@@ -966,7 +975,7 @@
                 
                 setTimeout(() => { flash.style.opacity = 0; }, 200); 
                 setTimeout(() => { overlay.style.display = "none"; trocarTela('screen-gacha'); }, 250);
-            }, 600); // Tensão de 0.6 segundos
+            }, 700); // 0.7 segundos exatos acompanhando a animação
         };
     }
 
@@ -1470,18 +1479,21 @@
 
     function usarPocao() { if (player.potions > 0 && player.hp < player.maxHp) { player.potions--; player.hp = Math.min(player.maxHp, player.hp + 50); criarTextoDano("+50", "var(--success)", false); log("Poção usada!", "var(--success)"); salvarJogo(); document.getElementById('player-input').focus(); } }
     function fugir() {
-        logMessage("Você fugiu correndo da batalha!");
+        // 1. Trava o inimigo na mesma hora para ele não te bater pelas costas
+        clearInterval(enemyTimer); 
+        inBattle = false;
         
-        // 1. O Escudo: Desliga a tela de batalha para o jogador não esbarrar em nenhum ataque enquanto foge
+        // 2. Registra o texto usando a função certa
+        log("Você fugiu correndo da batalha!", "#bdc3c7");
+        
+        // 3. O Escudo de cliques
         document.getElementById('screen-battle').style.pointerEvents = 'none';
         
         setTimeout(() => {
             trocarTela('screen-main');
-            checkLevelUp();
-            
-            // 2. A Limpeza: Devolve o clique para a tela de batalha voltar a funcionar na próxima caçada
+            // Devolve o clique para a próxima batalha
             document.getElementById('screen-battle').style.pointerEvents = 'auto';
-        }, 1000);
+        }, 800);
     }
     function gameOver() { clearInterval(enemyTimer); inBattle = false; player.gold = Math.floor(player.gold / 2); player.hp = player.maxHp; salvarJogo(); vibrar([200, 100, 200]); mostrarDialogo("Você desmaiou de exaustão...\nMetade do seu ouro foi perdido.", () => { trocarTela('screen-main'); }); }
     function curarNaBase() { if (player.gold >= 50 && player.hp < player.maxHp) { player.gold -= 50; player.hp = player.maxHp; salvarJogo(); } }
@@ -1728,9 +1740,20 @@
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         promptDeInstalacao = e;
-        // Só tenta mostrar o botão se ele de fato existir no seu HTML
+        
         if (btnInstall) {
             btnInstall.style.display = 'flex';
+            
+            // CONVERSA RPG: Se for a primeira vez que o celular libera o app, avisa o jogador!
+            if (!localStorage.getItem('viuAvisoApp')) {
+                setTimeout(() => {
+                    // Nome corrigido para 'mostrarDialogo'
+                    mostrarDialogo("<span style='color:var(--gold)'>📱 MENSAGEM DO SISTEMA 📱</span><br><br>Sabia que KanjiMon é um aplicativo? Procure o botão Laranja no Acampamento para instalar na tela inicial do seu aparelho!", () => {
+                        // Salva na memória para não repetir a conversa
+                        localStorage.setItem('viuAvisoApp', 'true');
+                    });
+                }, 1500); 
+            }
         }
     });
 
