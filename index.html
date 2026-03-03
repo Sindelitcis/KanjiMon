@@ -1469,7 +1469,20 @@
     }
 
     function usarPocao() { if (player.potions > 0 && player.hp < player.maxHp) { player.potions--; player.hp = Math.min(player.maxHp, player.hp + 50); criarTextoDano("+50", "var(--success)", false); log("Poção usada!", "var(--success)"); salvarJogo(); document.getElementById('player-input').focus(); } }
-    function fugir() { clearInterval(enemyTimer); inBattle = false; log(`Fugiu! Era ${enemy.sig[0]}`, "#e67e22"); setTimeout(() => trocarTela('screen-main'), 1000); }
+    function fugir() {
+        logMessage("Você fugiu correndo da batalha!");
+        
+        // 1. O Escudo: Desliga a tela de batalha para o jogador não esbarrar em nenhum ataque enquanto foge
+        document.getElementById('screen-battle').style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+            trocarTela('screen-main');
+            checkLevelUp();
+            
+            // 2. A Limpeza: Devolve o clique para a tela de batalha voltar a funcionar na próxima caçada
+            document.getElementById('screen-battle').style.pointerEvents = 'auto';
+        }, 1000);
+    }
     function gameOver() { clearInterval(enemyTimer); inBattle = false; player.gold = Math.floor(player.gold / 2); player.hp = player.maxHp; salvarJogo(); vibrar([200, 100, 200]); mostrarDialogo("Você desmaiou de exaustão...\nMetade do seu ouro foi perdido.", () => { trocarTela('screen-main'); }); }
     function curarNaBase() { if (player.gold >= 50 && player.hp < player.maxHp) { player.gold -= 50; player.hp = player.maxHp; salvarJogo(); } }
     function comprarPocao() { if (player.gold >= 30) { player.gold -= 30; player.potions++; salvarJogo(); } }
