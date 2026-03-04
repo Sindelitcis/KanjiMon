@@ -597,7 +597,7 @@
                 ✔️ Sim, avançar para o Nível <span id="lvl-next-btn"></span>
             </button>
             <button id="btn-lvl-no" style="background: #e74c3c; font-size: 14px; box-shadow: 0 4px 0 #c0392b; text-transform: none;">
-                ❌ Não, recuar para o Nível <span id="lvl-prev"></span><br>
+                ❌ Não, continuar no Nível <span id="lvl-prev"></span><br>
                 <span style="font-size:11px; font-weight:normal;">(Reforçar a base de Kanji atual)</span>
             </button>
         </div>
@@ -982,7 +982,7 @@
 
     function mostrarEscolhaLevelUp(callback) {
         const proxNivel = player.level + 1;
-        const nivelAnterior = Math.max(1, player.level - 1); 
+        const nivelAnterior = player.level; // Zera o XP mantendo o nível
         
         // --- MATEMÁTICA INTELIGENTE DE PROGRESSÃO ---
         const maxLiberadosAtual = Math.min(DATABASE.length, (player.level * 5) + 10);
