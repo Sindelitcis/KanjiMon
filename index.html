@@ -1197,6 +1197,20 @@
                 atualizarHpInimigo(); 
                 criarTextoDano(`-${danoCausado}`, "#fff", true); 
                 
+                // --- NOVO: TUTORIAL DE RESISTÊNCIA (APARECE SÓ 1 VEZ) ---
+                if (enemy.hp > 0 && !localStorage.getItem('viuTutorialResistencia')) {
+                    localStorage.setItem('viuTutorialResistencia', 'true'); // Grava que já viu
+                    clearInterval(enemyTimer); // PAUSA OS ATAQUES DO MONSTRO!
+                    
+                    setTimeout(() => {
+                        mostrarDialogo("Professor: Você acertou! Mas cuidado, este não é um Kanji comum. Ele é mais resistente e sobreviveu ao primeiro impacto! Digite a resposta correta novamente até a vida dele zerar para conseguir capturá-lo!", () => {
+                            // Quando o jogador fechar a caixa, a batalha volta!
+                            iniciarTimerInimigo(); 
+                            document.getElementById('player-input').focus();
+                        });
+                    }, 500); // Dá meio segundo para o jogador ver o dano antes de pausar
+                }
+                
                 // --- FASE 2: A FÚRIA DO LÍDER ---
                 if (enemy.isBoss && enemy.hp > 0 && enemy.hp <= (enemy.maxHp * 0.5) && !enemy.isEnraged) {
                     enemy.isEnraged = true;
@@ -1691,6 +1705,21 @@
         
         // Mandamos o "levitator" como o alvo estático que lê o seu mouse
         ativar3D(wrapper, holo, gloss, rKey, levitator);
+
+        // --- NOVO: TUTORIAL DA KANJIDEX (APARECE SÓ 1 VEZ) ---
+        if (!localStorage.getItem('viuTutorialPokedex')) {
+            localStorage.setItem('viuTutorialPokedex', 'true');
+            
+            // Espera meio segundo para a carta aparecer majestosa antes de abrir o diálogo
+            setTimeout(() => {
+                mostrarDialogo(
+                    "<span style='color:var(--gold)'>📖 GUIA DA KANJIDEX 📖</span><br><br>" +
+                    "As cartas são representações visuais projetadas para facilitar a absorção do Kanji na sua memória. Experimente tocar e mover a carta para ver o efeito holográfico!<br><br>" +
+                    "Descanse e contemple sua coleção. Vá atrás de novas artes e maiores raridades, e aprenda com as aplicações de uso logo abaixo.<br><br>" +
+                    "🏅 <b>Maestria:</b> Quanto mais vezes você capturar o mesmo Kanji em sequência na Caçada, maior será seu nível, conquistando medalhas de Aprendiz a Mestre!"
+                );
+            }, 500); 
+        }
     }
 
     function fecharModal(e) { if (!e || e.target.id === 'card-modal' || e.target.className === 'close-modal') document.getElementById('card-modal').classList.remove('active'); }
