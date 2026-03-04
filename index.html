@@ -1122,16 +1122,51 @@
 
     function iniciarTimerInimigo() { clearInterval(enemyTimer); enemyTimer = setInterval(() => { if (!inBattle) return; player.hp -= enemy.atk; flashArenaVermelho(); criarTextoDano(`-${enemy.atk}`, 'var(--danger)', false); log(`O Kanji atacou! -${enemy.atk} HP.`, "#e74c3c"); atualizarHUD(); if (player.hp <= 0) gameOver(); }, 2000); }
 
+    // --- FILTRO UNIVERSAL (Anti-Teclado Japonês) ---
+    function sanearInput(texto) {
+        if (!texto) return "";
+        // 1. Emagrece números e letras gordas (Zenkaku -> Half-width)
+        let t = texto.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
+        // 2. Converte Katakana para Hiragana 
+        t = t.replace(/[\u30a1-\u30f6]/g, m => String.fromCharCode(m.charCodeAt(0) - 0x0060));
+
+        // 3. Tradutor Instantâneo de Hiragana para Romaji
+        const hMap = {'あ':'a','い':'i','う':'u','え':'e','お':'o','か':'ka','き':'ki','く':'ku','け':'ke','こ':'ko','さ':'sa','し':'shi','す':'su','せ':'se','そ':'so','た':'ta','ち':'chi','つ':'tsu','て':'te','と':'to','な':'na','に':'ni','ぬ':'nu','ね':'ne','の':'no','は':'ha','ひ':'hi','ふ':'fu','へ':'he','ほ':'ho','ま':'ma','み':'mi','む':'mu','め':'me','も':'mo','や':'ya','ゆ':'yu','よ':'yo','ら':'ra','り':'ri','る':'ru','れ':'re','ろ':'ro','わ':'wa','を':'wo','ん':'n','が':'ga','ぎ':'gi','ぐ':'gu','げ':'ge','ご':'go','ざ':'za','じ':'ji','ず':'zu','ぜ':'ze','ぞ':'zo','だ':'da','ぢ':'ji','づ':'zu','で':'de','ど':'do','ば':'ba','び':'bi','ぶ':'bu','べ':'be','ぼ':'bo','ぱ':'pa','ぴ':'pi','ぷ':'pu','ぺ':'pe','ぽ':'po','きゃ':'kya','きゅ':'kyu','きょ':'kyo','しゃ':'sha','しゅ':'shu','しょ':'sho','ちゃ':'cha','ちゅ':'chu','ちょ':'cho','にゃ':'nya','にゅ':'nyu','にょ':'nyo','ひゃ':'hya','ひゅ':'hyu','ひょ':'hyo','みゃ':'mya','みゅ':'myu','みょ':'myo','りゃ':'rya','りゅ':'ryu','りょ':'ryo','ぎゃ':'gya','ぎゅ':'gyu','ぎょ':'gyo','じゃ':'ja','じゅ':'ju','じょ':'jo','びゃ':'bya','びゅ':'byu','びょ':'byo','ぴゃ':'pya','ぴゅ':'pyu','ぴょ':'pyo'};
+
+        let romaji = "";
+        for(let i=0; i<t.length; i++) {
+            if (i < t.length - 1 && hMap[t[i] + t[i+1]]) { romaji += hMap[t[i] + t[i+1]]; i++; }
+            else if (hMap[t[i]]) { romaji += hMap[t[i]]; }
+            else if (t[i] === 'っ' && i < t.length - 1 && hMap[t[i+1]]) { romaji += hMap[t[i+1]][0]; } // Sokuon (tsu pequeno)
+            else if (t[i] === 'ー') { romaji += romaji.slice(-1); } // Vogal longa
+            else { romaji += t[i]; }
+        }
+        return romaji.toLowerCase().trim();
+    }
+
     function processarAtaque() {
         if (!inBattle) return;
-        const inputRaw = document.getElementById('player-input').value.toLowerCase().trim(); 
-        const input = inputRaw.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+        const inputRaw = document.getElementById('player-input').value.trim(); 
         document.getElementById('player-input').value = "";
-        if (input === "") return;
+        if (inputRaw === "") return;
         
+        // Passa a resposta do jogador no Filtro Universal
+        const inputLimpo = sanearInput(inputRaw); 
+        const inputSemAcento = inputLimpo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
         const sigsLimpos = enemy.sig.map(s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
         
-        if (sigsLimpos.includes(input) || enemy.romaji.includes(inputRaw)) {
+        // Checagem Principal
+        let acertou = sigsLimpos.includes(inputSemAcento) || enemy.romaji.includes(inputLimpo);
+        
+        // Tolerância de Erro (Perdoa quem digitar 'kyu' no lugar de 'kyuu' ou 'to' no lugar de 'tou')
+        if (!acertou) {
+            acertou = enemy.romaji.some(r => 
+                r.replace(/(a|e|i|o|u)\1/g, "$1") === inputLimpo.replace(/(a|e|i|o|u)\1/g, "$1") || 
+                r.replace(/ou/g, "o") === inputLimpo
+            );
+        }
+        
+        if (acertou) {
             const arenaRect = document.getElementById('battle-arena').getBoundingClientRect(); 
             criarVfxCorte(arenaRect.width / 2, arenaRect.height / 2 - 20); 
             animarDanoInimigo(); 
