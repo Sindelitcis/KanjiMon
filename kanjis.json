@@ -1,0 +1,2002 @@
+[
+  {
+    "id": 1,
+    "kanji": "一",
+    "romaji": [
+      "ichi",
+      "hito",
+      "itsu",
+      "iti",
+      "itu"
+    ],
+    "sig": [
+      "um",
+      "1"
+    ],
+    "vocab": [
+      "<em>一日</em> (<em>tsuitachi</em> - 1º dia do mês)",
+      "<b>一</b>人 (<b>hito</b>ri - 1 pessoa)",
+      "<b>一</b>緒に (<b>is</b>sho ni - juntos)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>一</b>人で行きます。(<b>hito</b>ri de ikimasu - Vou sozinho.)</span>"
+    ],
+    "hpBase": 20,
+    "atk": 3
+  },
+  {
+    "id": 2,
+    "kanji": "二",
+    "romaji": [
+      "ni",
+      "futa",
+      "huta"
+    ],
+    "sig": [
+      "dois",
+      "2"
+    ],
+    "vocab": [
+      "<b>二</b>日 (<b>futsu</b>ka - dia 2)",
+      "<b>二</b>人 (<b>futa</b>ri - 2 pessoas)",
+      "<b>二</b>つ (<b>futa</b>tsu - duas coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>二</b>つください。(<b>futa</b>tsu kudasai - Me dê dois, por favor.)</span>"
+    ],
+    "hpBase": 20,
+    "atk": 3
+  },
+  {
+    "id": 3,
+    "kanji": "三",
+    "romaji": [
+      "san",
+      "mi"
+    ],
+    "sig": [
+      "tres",
+      "3"
+    ],
+    "vocab": [
+      "<b>三</b>日 (<b>mik</b>ka - dia 3)",
+      "<b>三</b>人 (<b>san</b>nin - 3 pessoas)",
+      "<b>三</b>月 (<b>san</b>gatsu - março)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>三</b>人家族です。(<b>san</b>nin kazoku desu - Somos uma família de três.)</span>"
+    ],
+    "hpBase": 25,
+    "atk": 4
+  },
+  {
+    "id": 4,
+    "kanji": "四",
+    "romaji": [
+      "yon",
+      "shi",
+      "yo",
+      "si"
+    ],
+    "sig": [
+      "quatro",
+      "4"
+    ],
+    "vocab": [
+      "<b>四</b>月 (<b>shi</b>gatsu - abril)",
+      "<b>四</b>人 (<b>yo</b>nin - 4 pessoas)",
+      "<b>四</b>つ (<b>yot</b>tsu - quatro coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>四</b>時に会いましょう。(<b>yo</b>ji ni aimashou - Vamos nos encontrar às quatro horas.)</span>"
+    ],
+    "hpBase": 25,
+    "atk": 4
+  },
+  {
+    "id": 5,
+    "kanji": "五",
+    "romaji": [
+      "go",
+      "itsu",
+      "itu"
+    ],
+    "sig": [
+      "cinco",
+      "5"
+    ],
+    "vocab": [
+      "<b>五</b>日 (<b>itsu</b>ka - dia 5)",
+      "<b>五</b>円 (<b>go</b>en - moeda de 5 ienes)",
+      "<b>五</b>つ (<b>itsu</b>tsu - cinco coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>五</b>分待ってください。(<b>go</b>fun matte kudasai - Espere cinco minutos.)</span>"
+    ],
+    "hpBase": 25,
+    "atk": 4
+  },
+  {
+    "id": 6,
+    "kanji": "六",
+    "romaji": [
+      "roku",
+      "mu"
+    ],
+    "sig": [
+      "seis",
+      "6"
+    ],
+    "vocab": [
+      "<b>六</b>日 (<b>mui</b>ka - dia 6)",
+      "<b>六</b>百 (<b>rop</b>pyaku - 600)",
+      "<b>六</b>つ (<b>mut</b>tsu - seis coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 毎日<b>六</b>時に起きます。(mainichi <b>roku</b>ji ni okimasu - Acordo às seis todos os dias.)</span>"
+    ],
+    "hpBase": 25,
+    "atk": 4
+  },
+  {
+    "id": 7,
+    "kanji": "七",
+    "romaji": [
+      "nana",
+      "shichi",
+      "siti"
+    ],
+    "sig": [
+      "sete",
+      "7"
+    ],
+    "vocab": [
+      "<b>七</b>日 (<b>nano</b>ka - dia 7)",
+      "<b>七</b>時 (<b>shichi</b>ji - 7 horas)",
+      "<b>七</b>つ (<b>nana</b>tsu - sete coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>七</b>月に行きます。(<b>shichi</b>gatsu ni ikimasu - Vou em julho.)</span>"
+    ],
+    "hpBase": 25,
+    "atk": 5
+  },
+  {
+    "id": 8,
+    "kanji": "八",
+    "romaji": [
+      "hachi",
+      "ya",
+      "hati"
+    ],
+    "sig": [
+      "oito",
+      "8"
+    ],
+    "vocab": [
+      "<b>八</b>日 (<b>you</b>ka - dia 8)",
+      "<em>八百屋</em> (<em>yaoya</em> - quitanda)",
+      "<b>八</b>つ (<b>yat</b>tsu - oito coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>八</b>時に始まります。(<b>hachi</b>ji ni hajimarimasu - Começa às oito horas.)</span>"
+    ],
+    "hpBase": 25,
+    "atk": 5
+  },
+  {
+    "id": 9,
+    "kanji": "九",
+    "romaji": [
+      "kyuu",
+      "ku",
+      "kokono"
+    ],
+    "sig": [
+      "nove",
+      "9"
+    ],
+    "vocab": [
+      "<b>九</b>月 (<b>ku</b>gatsu - setembro)",
+      "<b>九</b>州 (<b>kyuu</b>shuu - região de Kyushu)",
+      "<b>九</b>つ (<b>kokono</b>tsu - nove coisas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 妹は<b>九</b>歳です。(imouto wa <b>kyuu</b>sai desu - Minha irmã mais nova tem nove anos.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 5
+  },
+  {
+    "id": 10,
+    "kanji": "十",
+    "romaji": [
+      "juu",
+      "tou",
+      "ji",
+      "zyuu",
+      "zi"
+    ],
+    "sig": [
+      "dez",
+      "10"
+    ],
+    "vocab": [
+      "<b>十</b>日 (<b>too</b>ka - dia 10)",
+      "<b>十</b>分 (<b>juu</b>bun - suficiente)",
+      "<b>十</b>字路 (<b>juu</b>jiro - cruzamento)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>十</b>分な時間があります。(<b>juu</b>bun na jikan ga arimasu - Temos tempo suficiente.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 5
+  },
+  {
+    "id": 11,
+    "kanji": "百",
+    "romaji": [
+      "hyaku",
+      "byaku",
+      "pyaku"
+    ],
+    "sig": [
+      "cem",
+      "100"
+    ],
+    "vocab": [
+      "<b>百</b>円 (<b>hyaku</b>en - 100 ienes)",
+      "三<b>百</b> (san<b>byaku</b> - 300)",
+      "<b>百</b>貨店 (<b>hyaku</b>katen - loja de departamento)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: これは<b>百</b>円です。(kore wa <b>hyaku</b>en desu - Isto custa cem ienes.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 6
+  },
+  {
+    "id": 12,
+    "kanji": "千",
+    "romaji": [
+      "sen",
+      "chi",
+      "zen",
+      "ti"
+    ],
+    "sig": [
+      "mil",
+      "1000"
+    ],
+    "vocab": [
+      "<b>千</b>円 (<b>sen</b>'en - 1000 ienes)",
+      "<b>千</b>葉 (<b>chi</b>ba - província de Chiba)",
+      "三<b>千</b> (san<b>zen</b> - 3000)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>千</b>円札ありますか？ (<b>sen</b>'ensatsu arimasu ka? - Tem uma nota de mil ienes?)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 7
+  },
+  {
+    "id": 13,
+    "kanji": "万",
+    "romaji": [
+      "man",
+      "ban"
+    ],
+    "sig": [
+      "dez mil",
+      "10000"
+    ],
+    "vocab": [
+      "一<b>万</b>円 (ichi<b>man</b>'en - 10.000 ienes)",
+      "<b>万</b>歳 (<b>ban</b>zai - viva!)",
+      "<b>万</b>一 (<b>man</b>'ichi - emergência/por acaso)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 一<b>万</b>円かかります。(ichi<b>man</b>'en kakarimasu - Custa dez mil ienes.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 8
+  },
+  {
+    "id": 14,
+    "kanji": "円",
+    "romaji": [
+      "en",
+      "maru"
+    ],
+    "sig": [
+      "iene",
+      "circulo",
+      "dinheiro"
+    ],
+    "vocab": [
+      "百<b>円</b> (hyaku<b>en</b> - 100 ienes)",
+      "<b>円</b>い (<b>maru</b>i - redondo)",
+      "<b>円</b>安 (<b>en</b>yasu - iene fraco)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 千<b>円</b>を払いました。(sen<b>en</b> o haraimashita - Paguei mil ienes.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 7
+  },
+  {
+    "id": 15,
+    "kanji": "日",
+    "romaji": [
+      "hi",
+      "nichi",
+      "jitsu",
+      "bi",
+      "ka",
+      "niti",
+      "zitu"
+    ],
+    "sig": [
+      "sol",
+      "dia"
+    ],
+    "vocab": [
+      "<b>日</b>本 (<b>ni</b>hon - Japão)",
+      "<em>今日</em> (<em>kyou</em> - hoje)",
+      "<b>日</b>曜<b>日</b> (<b>nichi</b>you<b>bi</b> - domingo)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>日</b>本へようこそ。(<b>ni</b>hon e youkoso - Bem-vindo ao Japão.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 6
+  },
+  {
+    "id": 16,
+    "kanji": "月",
+    "romaji": [
+      "tsuki",
+      "getsu",
+      "gatsu",
+      "tuki",
+      "getu",
+      "gatu"
+    ],
+    "sig": [
+      "lua",
+      "mes"
+    ],
+    "vocab": [
+      "<b>月</b>曜日 (<b>getsu</b>youbi - 2ª feira)",
+      "今<b>月</b> (kon<b>getsu</b> - este mês)",
+      "一ヶ<b>月</b> (ikka<b>getsu</b> - um mês)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>月</b>が綺麗ですね。(<b>tsuki</b> ga kirei desu ne - A lua está linda, não é?)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 6
+  },
+  {
+    "id": 17,
+    "kanji": "火",
+    "romaji": [
+      "hi",
+      "ka",
+      "bi"
+    ],
+    "sig": [
+      "fogo"
+    ],
+    "vocab": [
+      "<b>火</b>曜日 (<b>ka</b>youbi - 3ª feira)",
+      "花<b>火</b> (hana<b>bi</b> - fogos de artifício)",
+      "<b>火</b>事 (<b>ka</b>ji - incêndio)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>火</b>を消して。(<b>hi</b> o keshite - Apague o fogo.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 7
+  },
+  {
+    "id": 18,
+    "kanji": "水",
+    "romaji": [
+      "mizu",
+      "sui"
+    ],
+    "sig": [
+      "agua"
+    ],
+    "vocab": [
+      "<b>水</b>曜日 (<b>sui</b>youbi - 4ª feira)",
+      "お<b>水</b> (o<b>mizu</b> - água)",
+      "<b>水</b>道 (<b>sui</b>dou - encanamento)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: お<b>水</b>を一杯ください。(o<b>mizu</b> o ippai kudasai - Um copo de água, por favor.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 19,
+    "kanji": "木",
+    "romaji": [
+      "ki",
+      "moku",
+      "boku"
+    ],
+    "sig": [
+      "arvore",
+      "madeira"
+    ],
+    "vocab": [
+      "<b>木</b>曜日 (<b>moku</b>youbi - 5ª feira)",
+      "<b>木</b>村 (<b>ki</b>mura - sobrenome)",
+      "<b>木</b>造 (<b>moku</b>zou - de madeira)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: あの<b>木</b>は大きいです。(ano <b>ki</b> wa ookii desu - Aquela árvore é grande.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 4
+  },
+  {
+    "id": 20,
+    "kanji": "金",
+    "romaji": [
+      "kane",
+      "kin",
+      "kon"
+    ],
+    "sig": [
+      "ouro",
+      "dinheiro",
+      "metal"
+    ],
+    "vocab": [
+      "<b>金</b>曜日 (<b>kin</b>'youbi - 6ª feira)",
+      "お<b>金</b> (o<b>kane</b> - dinheiro)",
+      "現<b>金</b> (gen<b>kin</b> - dinheiro vivo)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: お<b>金</b>がありません。(o<b>kane</b> ga arimasen - Não tenho dinheiro.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 8
+  },
+  {
+    "id": 21,
+    "kanji": "土",
+    "romaji": [
+      "tsuchi",
+      "do",
+      "to",
+      "tuti"
+    ],
+    "sig": [
+      "terra",
+      "solo"
+    ],
+    "vocab": [
+      "<b>土</b>曜日 (<b>do</b>youbi - sábado)",
+      "お<em>土産</em> (o<em>miyage</em> - lembrancinha)",
+      "<b>土</b>地 (<b>to</b>chi - terreno)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>土</b>曜日が休みです。(<b>do</b>youbi ga yasumi desu - Sábado é minha folga.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 22,
+    "kanji": "山",
+    "romaji": [
+      "yama",
+      "san",
+      "zan"
+    ],
+    "sig": [
+      "montanha"
+    ],
+    "vocab": [
+      "富士<b>山</b> (fuji<b>san</b> - Monte Fuji)",
+      "<b>山</b>田 (<b>yama</b>da - sobrenome)",
+      "火<b>山</b> (ka<b>zan</b> - vulcão)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>山</b>に登ります。(<b>yama</b> ni noborimasu - Vou escalar a montanha.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 23,
+    "kanji": "川",
+    "romaji": [
+      "kawa",
+      "sen",
+      "gawa"
+    ],
+    "sig": [
+      "rio"
+    ],
+    "vocab": [
+      "<b>川</b>口 (<b>kawa</b>guchi - sobrenome)",
+      "天の<b>川</b> (amano<b>gawa</b> - via láctea)",
+      "河<b>川</b> (ka<b>sen</b> - rios)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>川</b>で泳ぎます。(<b>kawa</b> de oyogimasu - Vou nadar no rio.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 24,
+    "kanji": "天",
+    "romaji": [
+      "ten",
+      "ama"
+    ],
+    "sig": [
+      "ceu",
+      "paraiso"
+    ],
+    "vocab": [
+      "<b>天</b>気 (<b>ten</b>ki - tempo)",
+      "<b>天</b>ぷら (<b>ten</b>pura - tempurá)",
+      "<b>天</b>国 (<b>ten</b>goku - paraíso)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 今日は<b>天</b>気がいいです。(kyou wa <b>ten</b>ki ga ii desu - O tempo está bom hoje.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 9
+  },
+  {
+    "id": 25,
+    "kanji": "空",
+    "romaji": [
+      "sora",
+      "kuu",
+      "a",
+      "kara"
+    ],
+    "sig": [
+      "ceu",
+      "vazio"
+    ],
+    "vocab": [
+      "<b>空</b>気 (<b>kuu</b>ki - ar)",
+      "<b>空</b>港 (<b>kuu</b>kou - aeroporto)",
+      "<b>空</b>いている (<b>a</b>iteiru - estar vazio/livre)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>空</b>が青いです。(<b>sora</b> ga aoi desu - O céu está azul.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 8
+  },
+  {
+    "id": 26,
+    "kanji": "雨",
+    "romaji": [
+      "ame",
+      "u",
+      "ama"
+    ],
+    "sig": [
+      "chuva"
+    ],
+    "vocab": [
+      "大<b>雨</b> (oo<b>ame</b> - chuva forte)",
+      "<b>雨</b>水 (<b>ama</b>mizu - água da chuva)",
+      "<em>梅雨</em> (<em>tsuyu</em> - época de chuvas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>雨</b>が降っています。(<b>ame</b> ga futte imasu - Está chovendo.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 6
+  },
+  {
+    "id": 27,
+    "kanji": "花",
+    "romaji": [
+      "hana",
+      "ka",
+      "bana"
+    ],
+    "sig": [
+      "flor"
+    ],
+    "vocab": [
+      "<b>花</b>見 (<b>hana</b>mi - ver cerejeiras)",
+      "<b>花</b>火 (<b>hana</b>bi - fogos de artifício)",
+      "生け<b>花</b> (ike<b>bana</b> - arranjo floral)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 綺麗な<b>花</b>ですね。(kirei na <b>hana</b> desu ne - Que flor bonita, né?)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 28,
+    "kanji": "人",
+    "romaji": [
+      "hito",
+      "jin",
+      "nin",
+      "zin"
+    ],
+    "sig": [
+      "pessoa",
+      "humano"
+    ],
+    "vocab": [
+      "日本<b>人</b> (nihon<b>jin</b> - japonês)",
+      "あの<b>人</b> (ano <b>hito</b> - aquela pessoa)",
+      "<b>人</b>気 (<b>nin</b>ki - popularidade)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 彼はいい<b>人</b>です。(kare wa ii <b>hito</b> desu - Ele é uma boa pessoa.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 29,
+    "kanji": "男",
+    "romaji": [
+      "otoko",
+      "dan",
+      "nan"
+    ],
+    "sig": [
+      "homem",
+      "masculino"
+    ],
+    "vocab": [
+      "<b>男</b>の子 (<b>otoko</b>noko - menino)",
+      "<b>男</b>性 (<b>dan</b>sei - sexo masculino)",
+      "長<b>男</b> (chou<b>nan</b> - filho mais velho)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: あの<b>男</b>の人は誰ですか？ (ano <b>otoko</b> no hito wa dare desu ka? - Quem é aquele homem?)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 30,
+    "kanji": "女",
+    "romaji": [
+      "onna",
+      "jo",
+      "nyo",
+      "zyo"
+    ],
+    "sig": [
+      "mulher",
+      "feminino"
+    ],
+    "vocab": [
+      "<b>女</b>の子 (<b>onna</b>noko - menina)",
+      "<b>女</b>性 (<b>jo</b>sei - sexo feminino)",
+      "彼<b>女</b> (kano<b>jo</b> - namorada/ela)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>女</b>の人がいます。(<b>onna</b> no hito ga imasu - Tem uma mulher ali.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 31,
+    "kanji": "子",
+    "romaji": [
+      "ko",
+      "shi",
+      "su",
+      "si"
+    ],
+    "sig": [
+      "crianca",
+      "filho"
+    ],
+    "vocab": [
+      "<b>子</b>供 (<b>ko</b>domo - criança)",
+      "お菓<b>子</b> (oka<b>shi</b> - doces/snacks)",
+      "帽<b>子</b> (bou<b>shi</b> - chapéu)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>子</b>供が遊んでいます。(<b>kodomo</b> ga asonde imasu - A criança está brincando.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 4
+  },
+  {
+    "id": 32,
+    "kanji": "目",
+    "romaji": [
+      "me",
+      "moku",
+      "boku"
+    ],
+    "sig": [
+      "olho"
+    ],
+    "vocab": [
+      "<b>目</b>薬 (<b>me</b>gusuri - colírio)",
+      "<b>目</b>的 (<b>moku</b>teki - objetivo)",
+      "駄<b>目</b> (da<b>me</b> - proibido/não pode)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>目</b>が痛いです。(<b>me</b> ga itai desu - Meu olho dói.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 4
+  },
+  {
+    "id": 33,
+    "kanji": "口",
+    "romaji": [
+      "kuchi",
+      "kou",
+      "ku",
+      "guchi",
+      "kuti",
+      "guti"
+    ],
+    "sig": [
+      "boca"
+    ],
+    "vocab": [
+      "出<b>口</b> (de<b>guchi</b> - saída)",
+      "入<b>口</b> (iri<b>guchi</b> - entrada)",
+      "人<b>口</b> (jin<b>kou</b> - população)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 大きく<b>口</b>を開けて。(ookiku <b>kuchi</b> o akete - Abra bem a boca.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 4
+  },
+  {
+    "id": 34,
+    "kanji": "耳",
+    "romaji": [
+      "mimi",
+      "ji",
+      "zi"
+    ],
+    "sig": [
+      "orelha"
+    ],
+    "vocab": [
+      "<b>耳</b>鼻科 (<b>ji</b>bika - otorrino)",
+      "初<b>耳</b> (hatsu<b>mimi</b> - ouvir pela 1ª vez)",
+      "<b>耳</b>栓 (<b>mimi</b>sen - tampão de ouvido)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>耳</b>が遠いです。(<b>mimi</b> ga tooi desu - Tenho a audição ruim/sou duro de ouvido.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 4
+  },
+  {
+    "id": 35,
+    "kanji": "手",
+    "romaji": [
+      "te",
+      "shu",
+      "syu"
+    ],
+    "sig": [
+      "mao"
+    ],
+    "vocab": [
+      "お<b>手</b>洗い (o<b>te</b>arai - banheiro/lavabos)",
+      "切<b>手</b> (kit<b>te</b> - selo postal)",
+      "拍<b>手</b> (haku<b>shu</b> - aplausos)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>手</b>を洗ってください。(<b>te</b> o aratte kudasai - Lave as mãos, por favor.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 36,
+    "kanji": "足",
+    "romaji": [
+      "ashi",
+      "soku",
+      "ta",
+      "asi"
+    ],
+    "sig": [
+      "pe",
+      "perna"
+    ],
+    "vocab": [
+      "<b>足</b>首 (<b>ashi</b>kubi - tornozelo)",
+      "不<b>足</b> (fu<b>soku</b> - falta/escassez)",
+      "<b>足</b>りる (<b>ta</b>riru - ser suficiente)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>足</b>が疲れました。(<b>ashi</b> ga tsukaremashita - Minhas pernas cansaram.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 6
+  },
+  {
+    "id": 37,
+    "kanji": "父",
+    "romaji": [
+      "chichi",
+      "tou",
+      "fu",
+      "titi",
+      "hu"
+    ],
+    "sig": [
+      "pai"
+    ],
+    "vocab": [
+      "お<b>父</b>さん (o<b>tou</b>san - pai)",
+      "祖<b>父</b> (so<b>fu</b> - avô)",
+      "<b>父</b>親 (<b>chichi</b>oya - pai [formal])",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>父</b>は会社員です。(<b>chichi</b> wa kaishain desu - Meu pai é funcionário de empresa.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 38,
+    "kanji": "母",
+    "romaji": [
+      "haha",
+      "kaa",
+      "bo"
+    ],
+    "sig": [
+      "mae"
+    ],
+    "vocab": [
+      "お<b>母</b>さん (o<b>kaa</b>san - mãe)",
+      "祖<b>母</b> (so<b>bo</b> - avó)",
+      "<b>母</b>親 (<b>haha</b>oya - mãe [formal])",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>母</b>は料理が上手です。(<b>haha</b> wa ryouri ga jouzu desu - Minha mãe cozinha bem.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 39,
+    "kanji": "上",
+    "romaji": [
+      "ue",
+      "jou",
+      "kami",
+      "nobo",
+      "a",
+      "uwa",
+      "zyou"
+    ],
+    "sig": [
+      "cima",
+      "acima",
+      "subir"
+    ],
+    "vocab": [
+      "<b>上</b>着 (<b>uwa</b>gi - casaco/jaqueta)",
+      "<b>上</b>手 (<b>jou</b>zu - habilidoso)",
+      "<b>上</b>る (<b>nobo</b>ru - subir)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 机の<b>上</b>にあります。(tsukue no <b>ue</b> ni arimasu - Está em cima da mesa.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 40,
+    "kanji": "下",
+    "romaji": [
+      "shita",
+      "ka",
+      "ge",
+      "kuda",
+      "sa",
+      "o",
+      "sita"
+    ],
+    "sig": [
+      "baixo",
+      "abaixo",
+      "descer"
+    ],
+    "vocab": [
+      "地<b>下</b>鉄 (chi<b>ka</b>tetsu - metrô)",
+      "<b>下</b>着 (<b>shita</b>gi - roupa íntima)",
+      "<b>下</b>さい (ku<b>da</b>sai - por favor)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 机の<b>下</b>に猫がいます。(tsukue no <b>shita</b> ni neko ga imasu - Tem um gato debaixo da mesa.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 41,
+    "kanji": "左",
+    "romaji": [
+      "hidari",
+      "sa"
+    ],
+    "sig": [
+      "esquerda"
+    ],
+    "vocab": [
+      "<b>左</b>折 (<b>sa</b>setsu - virar à esquerda)",
+      "<b>左</b>側 (<b>hidari</b>gawa - lado esquerdo)",
+      "<b>左</b>手 (<b>hidari</b>te - mão esquerda)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>左</b>へ曲がってください。(<b>hidari</b> e magatte kudasai - Vire à esquerda, por favor.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 42,
+    "kanji": "右",
+    "romaji": [
+      "migi",
+      "yuu",
+      "uu"
+    ],
+    "sig": [
+      "direita"
+    ],
+    "vocab": [
+      "<b>右</b>折 (<b>u</b>setsu - virar à direita)",
+      "<b>右</b>手 (<b>migi</b>te - mão direita)",
+      "左<b>右</b> (sa<b>yuu</b> - esquerda e direita)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>右</b>を見てください。(<b>migi</b> o mite kudasai - Olhe para a direita, por favor.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 43,
+    "kanji": "中",
+    "romaji": [
+      "naka",
+      "chuu",
+      "juu",
+      "tyuu",
+      "zyuu"
+    ],
+    "sig": [
+      "dentro",
+      "meio",
+      "centro"
+    ],
+    "vocab": [
+      "街<b>中</b> (machi<b>naka</b> - centro da cidade)",
+      "<b>中</b>国 (<b>chuu</b>goku - China)",
+      "一日<b>中</b> (ichinichi<b>juu</b> - o dia todo)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: かばんの<b>中</b>にあります。(kaban no <b>naka</b> ni arimasu - Está dentro da bolsa.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 44,
+    "kanji": "前",
+    "romaji": [
+      "mae",
+      "zen"
+    ],
+    "sig": [
+      "antes",
+      "frente"
+    ],
+    "vocab": [
+      "名<b>前</b> (na<b>mae</b> - nome)",
+      "駅<b>前</b> (eki<b>mae</b> - em frente à estação)",
+      "午<b>前</b> (go<b>zen</b> - AM/manhã)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 駅の<b>前</b>で待ちましょう。(eki no <b>mae</b> de machimashou - Vamos esperar na frente da estação.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 45,
+    "kanji": "後",
+    "romaji": [
+      "ato",
+      "ushi",
+      "go",
+      "kou",
+      "nochi",
+      "oku",
+      "usi",
+      "noti"
+    ],
+    "sig": [
+      "depois",
+      "atras"
+    ],
+    "vocab": [
+      "<b>後</b>ろ (<b>ushi</b>ro - atrás)",
+      "午<b>後</b> (go<b>go</b> - PM/tarde)",
+      "<b>後</b>で (<b>ato</b> de - depois)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>後</b>で電話します。(<b>ato</b> de denwa shimasu - Ligo depois.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 46,
+    "kanji": "外",
+    "romaji": [
+      "soto",
+      "gai",
+      "ge",
+      "hoka",
+      "hazu"
+    ],
+    "sig": [
+      "fora",
+      "exterior"
+    ],
+    "vocab": [
+      "<b>外</b>国人 (<b>gai</b>kokujin - estrangeiro)",
+      "海<b>外</b> (kai<b>gai</b> - exterior/países estrangeiros)",
+      "<b>外</b>食 (<b>gai</b>shoku - comer fora)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>外</b>は寒いです。(<b>soto</b> wa samui desu - Lá fora está frio.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 47,
+    "kanji": "北",
+    "romaji": [
+      "kita",
+      "hoku"
+    ],
+    "sig": [
+      "norte"
+    ],
+    "vocab": [
+      "<b>北</b>海道 (<b>hokka</b>idou - região de Hokkaido)",
+      "<b>北</b>口 (<b>kita</b>guchi - saída norte)",
+      "南<b>北</b> (nan<b>boku</b> - sul e norte)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 駅の<b>北</b>口に出てください。(eki no <b>kita</b>guchi ni dete kudasai - Saia pela saída norte da estação.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 48,
+    "kanji": "南",
+    "romaji": [
+      "minami",
+      "nan"
+    ],
+    "sig": [
+      "sul"
+    ],
+    "vocab": [
+      "<b>南</b>口 (<b>minami</b>guchi - saída sul)",
+      "東<b>南</b>アジア (tou<b>nan</b> ajia - sudeste asiático)",
+      "<b>南</b>米 (<b>nan</b>bei - América do Sul)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: ブラジルは<b>南</b>米にあります。(burajiru wa <b>nan</b>bei ni arimasu - O Brasil fica na América do Sul.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 49,
+    "kanji": "東",
+    "romaji": [
+      "higashi",
+      "tou",
+      "higasi"
+    ],
+    "sig": [
+      "leste"
+    ],
+    "vocab": [
+      "<b>東</b>京 (<b>tou</b>kyou - Tóquio)",
+      "<b>東</b>口 (<b>higashi</b>guchi - saída leste)",
+      "関<b>東</b> (kan<b>tou</b> - região de Kanto)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 太陽は<b>東</b>から昇ります。(taiyou wa <b>higashi</b> kara noborimasu - O sol nasce no leste.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 50,
+    "kanji": "西",
+    "romaji": [
+      "nishi",
+      "sei",
+      "sai",
+      "nisi"
+    ],
+    "sig": [
+      "oeste"
+    ],
+    "vocab": [
+      "関<b>西</b> (kan<b>sai</b> - região de Kansai)",
+      "<b>西</b>口 (<b>nishi</b>guchi - saída oeste)",
+      "<b>西</b>洋 (<b>sei</b>you - ocidente)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>西</b>口で会いましょう。(<b>nishi</b>guchi de aimashou - Vamos nos ver na saída oeste.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 51,
+    "kanji": "年",
+    "romaji": [
+      "toshi",
+      "nen",
+      "tosi"
+    ],
+    "sig": [
+      "ano"
+    ],
+    "vocab": [
+      "去<b>年</b> (kyo<b>nen</b> - ano passado)",
+      "来<b>年</b> (rai<b>nen</b> - próximo ano)",
+      "お<b>年</b>寄り (o<b>toshi</b>yori - idoso)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 来<b>年</b>日本へ行きます。(rai<b>nen</b> nihon e ikimasu - Ano que vem vou ao Japão.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 52,
+    "kanji": "休",
+    "romaji": [
+      "yasu",
+      "kyuu"
+    ],
+    "sig": [
+      "descanso",
+      "ferias",
+      "descansar"
+    ],
+    "vocab": [
+      "<b>休</b>み (<b>yasu</b>mi - folga/descanso)",
+      "定<b>休</b>日 (tei<b>kyuu</b>bi - dia de folga da loja)",
+      "夏<b>休</b>み (natsu<b>yasu</b>mi - férias de verão)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 今日は仕事が<b>休</b>みです。(kyou wa shigoto ga <b>yasu</b>mi desu - Hoje é minha folga do trabalho.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 53,
+    "kanji": "今",
+    "romaji": [
+      "ima",
+      "kon",
+      "kin"
+    ],
+    "sig": [
+      "agora"
+    ],
+    "vocab": [
+      "<b>今</b>週 (<b>kon</b>shuu - esta semana)",
+      "<em>今日</em> (<em>kyou</em> - hoje)",
+      "<em>今年</em> (<em>kotoshi</em> - este ano)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>今</b>、何時ですか？ (<b>ima</b>, nanji desu ka? - Que horas são agora?)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 54,
+    "kanji": "週",
+    "romaji": [
+      "shuu",
+      "syuu"
+    ],
+    "sig": [
+      "semana"
+    ],
+    "vocab": [
+      "<b>週</b>末 (<b>shuu</b>matsu - fim de semana)",
+      "来<b>週</b> (rai<b>shuu</b> - próxima semana)",
+      "毎<b>週</b> (mai<b>shuu</b> - toda semana)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>週</b>末は映画を見ます。(<b>shuu</b>matsu wa eiga o mimasu - No fim de semana assisto filmes.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 55,
+    "kanji": "時",
+    "romaji": [
+      "toki",
+      "ji",
+      "to",
+      "zi"
+    ],
+    "sig": [
+      "tempo",
+      "hora"
+    ],
+    "vocab": [
+      "<b>時</b>間 (<b>ji</b>kan - tempo/horas)",
+      "<b>時</b>計 (<b>to</b>kei - relógio)",
+      "何<b>時</b> (nan<b>ji</b> - que horas?)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>時</b>間がありません。(<b>ji</b>kan ga arimasen - Não tenho tempo.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 7
+  },
+  {
+    "id": 56,
+    "kanji": "間",
+    "romaji": [
+      "aida",
+      "kan",
+      "ken",
+      "ma"
+    ],
+    "sig": [
+      "intervalo",
+      "espaco",
+      "entre"
+    ],
+    "vocab": [
+      "この<b>間</b> (kono <b>aida</b> - ultimamente/o outro dia)",
+      "<b>間</b>に合う (<b>ma</b> ni au - chegar a tempo)",
+      "時<b>間</b> (ji<b>kan</b> - tempo)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 電車に<b>間</b>に合いました。(densha ni <b>ma</b> ni aimashita - Cheguei a tempo do trem.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 7
+  },
+  {
+    "id": 57,
+    "kanji": "半",
+    "romaji": [
+      "han",
+      "naka"
+    ],
+    "sig": [
+      "metade",
+      "meio"
+    ],
+    "vocab": [
+      "<b>半</b>額 (<b>han</b>gaku - metade do preço)",
+      "４時<b>半</b> (yoji<b>han</b> - 4 e meia)",
+      "<b>半</b>分 (<b>han</b>bun - metade)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: ピザを<b>半</b>分食べました。(piza o <b>han</b>bun tabemashita - Comi metade da pizza.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 58,
+    "kanji": "大",
+    "romaji": [
+      "oo",
+      "dai",
+      "tai"
+    ],
+    "sig": [
+      "grande"
+    ],
+    "vocab": [
+      "<b>大</b>丈夫 (<b>dai</b>joubu - tudo bem/sem problema)",
+      "<em>大人</em> (<em>otona</em> - adulto)",
+      "<b>大</b>きい (<b>oo</b>kii - grande)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: このシャツは<b>大</b>きいです。(kono shatsu wa <b>oo</b>kii desu - Esta camisa é grande.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 8
+  },
+  {
+    "id": 59,
+    "kanji": "小",
+    "romaji": [
+      "chii",
+      "shou",
+      "ko",
+      "o",
+      "tii",
+      "syou"
+    ],
+    "sig": [
+      "pequeno"
+    ],
+    "vocab": [
+      "<b>小</b>学校 (<b>shou</b>gakkou - escola primária)",
+      "<b>小</b>銭 (<b>ko</b>zeni - troco/moedas)",
+      "<b>小</b>さい (<b>chii</b>sai - pequeno)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>小</b>さい犬を飼っています。(<b>chii</b>sai inu o katte imasu - Crio um cachorro pequeno.)</span>"
+    ],
+    "hpBase": 30,
+    "atk": 4
+  },
+  {
+    "id": 60,
+    "kanji": "高",
+    "romaji": [
+      "taka",
+      "kou"
+    ],
+    "sig": [
+      "alto",
+      "caro"
+    ],
+    "vocab": [
+      "<b>高</b>校生 (<b>kou</b>kousei - estudante do ensino médio)",
+      "<b>高</b>い (<b>taka</b>i - caro/alto)",
+      "最<b>高</b> (sai<b>kou</b> - o melhor/incrível)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 日本の果物は<b>高</b>いです。(nihon no kudamono wa <b>taka</b>i desu - As frutas no Japão são caras.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 7
+  },
+  {
+    "id": 61,
+    "kanji": "安",
+    "romaji": [
+      "yasu",
+      "an"
+    ],
+    "sig": [
+      "barato",
+      "seguro",
+      "paz"
+    ],
+    "vocab": [
+      "<b>安</b>い (<b>yasu</b>i - barato)",
+      "<b>安</b>全 (<b>an</b>zen - seguro)",
+      "不<b>安</b> (fu<b>an</b> - ansiedade)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: この靴はとても<b>安</b>いです。(kono kutsu wa totemo <b>yasu</b>i desu - Este sapato é muito barato.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 62,
+    "kanji": "新",
+    "romaji": [
+      "atara",
+      "shin",
+      "ara",
+      "nii",
+      "sin"
+    ],
+    "sig": [
+      "novo"
+    ],
+    "vocab": [
+      "<b>新</b>幹線 (<b>shin</b>kansen - trem bala)",
+      "<b>新</b>宿 (<b>shin</b>juku - bairro de Tóquio)",
+      "<b>新</b>しい (<b>atara</b>shii - novo)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>新</b>しい車を買いました。(<b>atara</b>shii kuruma o kaimashita - Comprei um carro novo.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 63,
+    "kanji": "古",
+    "romaji": [
+      "furu",
+      "ko",
+      "huru"
+    ],
+    "sig": [
+      "velho",
+      "antigo"
+    ],
+    "vocab": [
+      "中<b>古</b> (chuu<b>ko</b> - usado/segunda mão)",
+      "<b>古</b>い (<b>furu</b>i - velho/antigo)",
+      "名<b>古</b>屋 (na<b>go</b>ya - Nagoya)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: これは<b>古</b>いお寺です。(kore wa <b>furu</b>i otera desu - Este é um templo antigo.)</span>"
+    ],
+    "hpBase": 40,
+    "atk": 5
+  },
+  {
+    "id": 64,
+    "kanji": "長",
+    "romaji": [
+      "naga",
+      "chou",
+      "tyou"
+    ],
+    "sig": [
+      "longo",
+      "lider"
+    ],
+    "vocab": [
+      "社<b>長</b> (sha<b>chou</b> - presidente da empresa)",
+      "<b>長</b>い (<b>naga</b>i - longo)",
+      "駅<b>長</b> (eki<b>chou</b> - chefe da estação)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>長</b>い間、待っていました。(<b>naga</b>i aida, matte imashita - Esperei por um longo tempo.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 7
+  },
+  {
+    "id": 65,
+    "kanji": "多",
+    "romaji": [
+      "oo",
+      "ta"
+    ],
+    "sig": [
+      "muitos",
+      "muito"
+    ],
+    "vocab": [
+      "<b>多</b>分 (<b>ta</b>bun - talvez/provavelmente)",
+      "<b>多</b>い (<b>oo</b>i - muitos)",
+      "<b>多</b>数 (<b>ta</b>suu - a maioria)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 東京は人が<b>多</b>いです。(toukyou wa hito ga <b>oo</b>i desu - Tóquio tem muitas pessoas.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 66,
+    "kanji": "少",
+    "romaji": [
+      "suku",
+      "suko",
+      "shou",
+      "syou"
+    ],
+    "sig": [
+      "pouco",
+      "alguns"
+    ],
+    "vocab": [
+      "<b>少</b>ない (<b>suku</b>nai - pouco)",
+      "<b>少</b>年 (<b>shou</b>nen - menino/garoto)",
+      "<b>少</b>々 (<b>shou</b>shou - um momento)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>少</b>々お待ちください。(<b>shou</b>shou omachi kudasai - Aguarde um momento, por favor.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 67,
+    "kanji": "白",
+    "romaji": [
+      "shiro",
+      "haku",
+      "byaku",
+      "shira",
+      "siro",
+      "sira"
+    ],
+    "sig": [
+      "branco"
+    ],
+    "vocab": [
+      "<b>白</b>黒 (<b>shiro</b>kuro - preto e branco)",
+      "面<b>白</b>い (omo<b>shiro</b>i - interessante/divertido)",
+      "<b>白</b>い (<b>shiro</b>i - branco)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>白</b>いシャツが好きです。(<b>shiro</b>i shatsu ga suki desu - Gosto de camisas brancas.)</span>"
+    ],
+    "hpBase": 35,
+    "atk": 5
+  },
+  {
+    "id": 68,
+    "kanji": "学",
+    "romaji": [
+      "mana",
+      "gaku"
+    ],
+    "sig": [
+      "estudo",
+      "aprender"
+    ],
+    "vocab": [
+      "<b>学</b>生 (<b>gaku</b>sei - estudante)",
+      "留<b>学</b> (ryuu<b>gaku</b> - intercâmbio)",
+      "大<b>学</b> (dai<b>gaku</b> - universidade)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 日本語を<b>学</b>んでいます。(nihongo o <b>mana</b>nde imasu - Estou aprendendo japonês.)</span>"
+    ],
+    "hpBase": 65,
+    "atk": 10
+  },
+  {
+    "id": 69,
+    "kanji": "校",
+    "romaji": [
+      "kou"
+    ],
+    "sig": [
+      "escola"
+    ],
+    "vocab": [
+      "学<b>校</b> (gak<b>kou</b> - escola)",
+      "<b>校</b>長 (<b>kou</b>chou - diretor da escola)",
+      "高<b>校</b> (kou<b>kou</b> - ensino médio)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 明日は学<b>校</b>に行きます。(ashita wa gak<b>kou</b> ni ikimasu - Amanhã vou para a escola.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 9
+  },
+  {
+    "id": 70,
+    "kanji": "見",
+    "romaji": [
+      "mi",
+      "ken"
+    ],
+    "sig": [
+      "ver",
+      "olhar"
+    ],
+    "vocab": [
+      "花<b>見</b> (hana<b>mi</b> - ver as flores)",
+      "<b>見</b>学 (<b>ken</b>gaku - visita de estudo)",
+      "意<b>見</b> (i<b>ken</b> - opinião)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 映画を<b>見</b>ます。(eiga o <b>mi</b>masu - Vou assistir a um filme.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 8
+  },
+  {
+    "id": 71,
+    "kanji": "食",
+    "romaji": [
+      "ta",
+      "shoku",
+      "ku",
+      "syoku"
+    ],
+    "sig": [
+      "comer",
+      "comida"
+    ],
+    "vocab": [
+      "<b>食</b>べ放題 (<b>ta</b>be houdai - comer à vontade/rodízio)",
+      "定<b>食</b> (tei<b>shoku</b> - prato feito)",
+      "和<b>食</b> (wa<b>shoku</b> - comida japonesa)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 寿司を<b>食</b>べます。(sushi o <b>ta</b>bemasu - Vou comer sushi.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 8
+  },
+  {
+    "id": 72,
+    "kanji": "飲",
+    "romaji": [
+      "no",
+      "in"
+    ],
+    "sig": [
+      "beber",
+      "bebida"
+    ],
+    "vocab": [
+      "<b>飲</b>み放題 (<b>no</b>mi houdai - open bar/beber à vontade)",
+      "<b>飲</b>食店 (<b>in</b>shokuten - restaurante/bar)",
+      "<b>飲</b>料 (<b>in</b>ryou - bebida)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: ビールを<b>飲</b>みます。(biiru o <b>no</b>mimasu - Vou beber cerveja.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 8
+  },
+  {
+    "id": 73,
+    "kanji": "行",
+    "romaji": [
+      "i",
+      "kou",
+      "gyou",
+      "yu",
+      "oko"
+    ],
+    "sig": [
+      "ir",
+      "viajar"
+    ],
+    "vocab": [
+      "旅<b>行</b> (ryo<b>kou</b> - viagem)",
+      "銀<b>行</b> (gin<b>kou</b> - banco)",
+      "<b>行</b>く (<b>i</b>ku - ir)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: コンビニへ<b>行</b>きます。(konbini e <b>i</b>kimasu - Vou à loja de conveniência.)</span>"
+    ],
+    "hpBase": 65,
+    "atk": 9
+  },
+  {
+    "id": 74,
+    "kanji": "来",
+    "romaji": [
+      "ku",
+      "ki",
+      "ko",
+      "rai"
+    ],
+    "sig": [
+      "vir",
+      "proximo"
+    ],
+    "vocab": [
+      "<b>来</b>年 (<b>rai</b>nen - próximo ano)",
+      "出<b>来</b>る (de<b>ki</b>ru - conseguir fazer)",
+      "<b>来</b>る (<b>ku</b>ru - vir)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 友達が家へ<b>来</b>ます。(tomodachi ga ie e <b>ku</b>ru - Meu amigo virá à minha casa.)</span>"
+    ],
+    "hpBase": 65,
+    "atk": 9
+  },
+  {
+    "id": 75,
+    "kanji": "語",
+    "romaji": [
+      "go",
+      "kata"
+    ],
+    "sig": [
+      "idioma",
+      "lingua",
+      "palavra"
+    ],
+    "vocab": [
+      "日本<b>語</b> (nihon<b>go</b> - língua japonesa)",
+      "敬<b>語</b> (kei<b>go</b> - linguagem formal)",
+      "単<b>語</b> (tan<b>go</b> - vocabulário)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 日本<b>語</b>を話せます。(nihon<b>go</b> o hanasemasu - Consigo falar japonês.)</span>"
+    ],
+    "hpBase": 80,
+    "atk": 12
+  },
+  {
+    "id": 76,
+    "kanji": "立",
+    "romaji": [
+      "ta",
+      "ritsu",
+      "ryuu",
+      "da",
+      "ritu"
+    ],
+    "sig": [
+      "ficar de pe",
+      "levantar"
+    ],
+    "vocab": [
+      "役に<b>立</b>つ (yaku ni <b>ta</b>tsu - ser útil)",
+      "目<b>立</b>つ (me<b>da</b>tsu - destacar-se)",
+      "<b>立</b>つ (<b>ta</b>tsu - levantar-se)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>立</b>ってください。(<b>ta</b>tte kudasai - Fique de pé, por favor.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 7
+  },
+  {
+    "id": 77,
+    "kanji": "生",
+    "romaji": [
+      "nama",
+      "i",
+      "u",
+      "ha",
+      "ki",
+      "sei",
+      "shou",
+      "syou"
+    ],
+    "sig": [
+      "vida",
+      "nascer",
+      "viver",
+      "cru"
+    ],
+    "vocab": [
+      "先<b>生</b> (sen<b>sei</b> - professor)",
+      "<b>生</b>ビール (<b>nama</b> biiru - cerveja de pressão/chope)",
+      "誕<b>生</b>日 (tan<b>jou</b>bi - aniversário)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>生</b>ビールを一つください。(<b>nama</b> biiru o hitotsu kudasai - Um chope, por favor.)</span>"
+    ],
+    "hpBase": 75,
+    "atk": 11
+  },
+  {
+    "id": 78,
+    "kanji": "話",
+    "romaji": [
+      "hana",
+      "hanashi",
+      "wa",
+      "hanasi"
+    ],
+    "sig": [
+      "falar",
+      "conversa",
+      "historia"
+    ],
+    "vocab": [
+      "電<b>話</b> (den<b>wa</b> - telefone)",
+      "世<b>話</b> (se<b>wa</b> - tomar conta/ajudar)",
+      "<b>話</b>す (<b>hana</b>su - falar)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 先生と<b>話</b>しました。(sensei to <b>hana</b>shimashita - Conversei com o professor.)</span>"
+    ],
+    "hpBase": 65,
+    "atk": 9
+  },
+  {
+    "id": 79,
+    "kanji": "読",
+    "romaji": [
+      "yo",
+      "doku",
+      "toku",
+      "to"
+    ],
+    "sig": [
+      "ler",
+      "leitura"
+    ],
+    "vocab": [
+      "<b>読</b>書 (<b>doku</b>sho - leitura)",
+      "<b>読</b>み方 (<b>yo</b>mikata - modo de ler)",
+      "<b>読</b>む (<b>yo</b>mu - ler)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: 毎晩、本を<b>読</b>みます。(maiban, hon o <b>yo</b>mimasu - Toda noite, leio um livro.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 8
+  },
+  {
+    "id": 80,
+    "kanji": "書",
+    "romaji": [
+      "ka",
+      "sho",
+      "syo"
+    ],
+    "sig": [
+      "escrever",
+      "livro"
+    ],
+    "vocab": [
+      "辞<b>書</b> (ji<b>sho</b> - dicionário)",
+      "図<b>書</b>館 (to<b>sho</b>kan - biblioteca)",
+      "<b>書</b>く (<b>ka</b>ku - escrever)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: ノートに名前を<b>書</b>きます。(nooto ni namae o <b>ka</b>kimasu - Escrevo o nome no caderno.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 8
+  },
+  {
+    "id": 81,
+    "kanji": "買",
+    "romaji": [
+      "ka",
+      "bai"
+    ],
+    "sig": [
+      "comprar"
+    ],
+    "vocab": [
+      "<b>買</b>い物 (<b>ka</b>imono - compras)",
+      "<b>買</b>い手 (<b>ka</b>ite - comprador)",
+      "<b>買</b>う (<b>ka</b>u - comprar)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: スーパーで野菜を<b>買</b>います。(suupaa de yasai o <b>ka</b>imasu - Compro vegetais no supermercado.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 8
+  },
+  {
+    "id": 82,
+    "kanji": "入",
+    "romaji": [
+      "hai",
+      "i",
+      "nyuu"
+    ],
+    "sig": [
+      "entrar",
+      "inserir"
+    ],
+    "vocab": [
+      "<b>入</b>口 (<b>iri</b>guchi - entrada)",
+      "輸<b>入</b> (yu<b>nyuu</b> - importação)",
+      "<b>入</b>れる (<b>i</b>reru - colocar dentro)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: かばんにペンを<b>入</b>れました。(kaban ni pen o <b>i</b>remashita - Coloquei a caneta na bolsa.)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 83,
+    "kanji": "出",
+    "romaji": [
+      "de",
+      "da",
+      "shutsu",
+      "sui",
+      "syutu"
+    ],
+    "sig": [
+      "sair",
+      "tirar"
+    ],
+    "vocab": [
+      "<b>出</b>口 (<b>de</b>guchi - saída)",
+      "<b>出</b>張 (<b>shuc</b>chou - viagem de negócios)",
+      "<b>出</b>す (<b>da</b>su - tirar/enviar)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: ゴミを<b>出</b>してください。(gomi o <b>da</b>shite kudasai - Coloque o lixo para fora, por favor.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 7
+  },
+  {
+    "id": 84,
+    "kanji": "友",
+    "romaji": [
+      "tomo",
+      "yuu"
+    ],
+    "sig": [
+      "amigo"
+    ],
+    "vocab": [
+      "<b>友</b>達 (<b>tomo</b>dachi - amigo)",
+      "<b>友</b>人 (<b>yuu</b>jin - amigo [formal])",
+      "親<b>友</b> (shin<b>yuu</b> - melhor amigo)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>友</b>達と遊びます。(<b>tomo</b>dachi to asobimasu - Vou brincar/sair com meu amigo.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 7
+  },
+  {
+    "id": 85,
+    "kanji": "車",
+    "romaji": [
+      "kuruma",
+      "sha",
+      "sya"
+    ],
+    "sig": [
+      "carro",
+      "veiculo"
+    ],
+    "vocab": [
+      "電<b>車</b> (den<b>sha</b> - trem)",
+      "自転<b>車</b> (jiten<b>sha</b> - bicicleta)",
+      "<b>車</b>椅子 (<b>kuruma</b>isu - cadeira de rodas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>車</b>で会社へ行きます。(<b>kuruma</b> de kaisha e ikimasu - Vou de carro para a empresa.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 8
+  },
+  {
+    "id": 86,
+    "kanji": "電",
+    "romaji": [
+      "den"
+    ],
+    "sig": [
+      "eletricidade",
+      "energia"
+    ],
+    "vocab": [
+      "<b>電</b>車 (<b>den</b>sha - trem)",
+      "<b>電</b>話 (<b>den</b>wa - telefone)",
+      "<b>電</b>気 (<b>den</b>ki - eletricidade/luz)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>電</b>気を消してください。(<b>den</b>ki o keshite kudasai - Apague a luz, por favor.)</span>"
+    ],
+    "hpBase": 70,
+    "atk": 12
+  },
+  {
+    "id": 87,
+    "kanji": "気",
+    "romaji": [
+      "ki",
+      "ke"
+    ],
+    "sig": [
+      "espirito",
+      "mente",
+      "ar",
+      "energia"
+    ],
+    "vocab": [
+      "天<b>気</b> (ten<b>ki</b> - estado do tempo)",
+      "病<b>気</b> (byou<b>ki</b> - doença)",
+      "元<b>気</b> (gen<b>ki</b> - saudável/energia)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: お元<b>気</b>ですか？ (o<b>gen</b>ki desu ka? - Como você está?)</span>"
+    ],
+    "hpBase": 65,
+    "atk": 10
+  },
+  {
+    "id": 88,
+    "kanji": "本",
+    "romaji": [
+      "hon",
+      "moto",
+      "pon",
+      "bon"
+    ],
+    "sig": [
+      "livro",
+      "origem",
+      "base"
+    ],
+    "vocab": [
+      "日<b>本</b> (ni<b>hon</b> - Japão)",
+      "<b>本</b>当 (<b>hon</b>tou - verdade)",
+      "絵<b>本</b> (e<b>hon</b> - livro ilustrado)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: これは面白い<b>本</b>です。(kore wa omoshiroi <b>hon</b> desu - Este é um livro interessante.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 7
+  },
+  {
+    "id": 89,
+    "kanji": "何",
+    "romaji": [
+      "nani",
+      "nan",
+      "ka"
+    ],
+    "sig": [
+      "o que",
+      "quantos"
+    ],
+    "vocab": [
+      "<b>何</b>時 (<b>nan</b>ji - que horas?)",
+      "<b>何</b>人 (<b>nan</b>nin - quantas pessoas?)",
+      "<b>何</b>か (<b>nani</b>ka - alguma coisa)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: これは<b>何</b>ですか？ (kore wa <b>nan</b>i desu ka? - O que é isto?)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 9
+  },
+  {
+    "id": 90,
+    "kanji": "名",
+    "romaji": [
+      "na",
+      "mei",
+      "myou"
+    ],
+    "sig": [
+      "nome",
+      "fama"
+    ],
+    "vocab": [
+      "<b>名</b>前 (<b>nama</b>e - nome)",
+      "有<b>名</b> (yuu<b>mei</b> - famoso)",
+      "<b>名</b>刺 (<b>mei</b>shi - cartão de visitas)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: お<b>名</b>前は何ですか？ (o<b>nama</b>e wa nan desu ka? - Qual é o seu nome?)</span>"
+    ],
+    "hpBase": 45,
+    "atk": 6
+  },
+  {
+    "id": 91,
+    "kanji": "駅",
+    "romaji": [
+      "eki"
+    ],
+    "sig": [
+      "estacao",
+      "estacao de trem"
+    ],
+    "vocab": [
+      "<b>駅</b>前 (<b>eki</b>mae - em frente à estação)",
+      "東京<b>駅</b> (toukyou <b>eki</b> - Estação de Tóquio)",
+      "<b>駅</b>員 (<b>eki</b>in - funcionário da estação)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>駅</b>まで歩きます。(<b>eki</b> made arukimasu - Vou andar até a estação.)</span>"
+    ],
+    "hpBase": 60,
+    "atk": 8
+  },
+  {
+    "id": 92,
+    "kanji": "店",
+    "romaji": [
+      "mise",
+      "ten"
+    ],
+    "sig": [
+      "loja",
+      "estabelecimento"
+    ],
+    "vocab": [
+      "喫茶<b>店</b> (kissa<b>ten</b> - cafeteria)",
+      "<b>店</b>員 (<b>ten</b>'in - funcionário da loja)",
+      "お<b>店</b> (o<b>mise</b> - loja)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: あの<b>店</b>は美味しいです。(ano <b>mise</b> wa oishii desu - Aquele restaurante é gostoso.)</span>"
+    ],
+    "hpBase": 50,
+    "atk": 7
+  },
+  {
+    "id": 93,
+    "kanji": "道",
+    "romaji": [
+      "michi",
+      "dou",
+      "miti"
+    ],
+    "sig": [
+      "caminho",
+      "rua"
+    ],
+    "vocab": [
+      "<b>道</b>路 (<b>dou</b>ro - estrada/via)",
+      "北海<b>道</b> (hokkai<b>dou</b> - região de Hokkaido)",
+      "片<b>道</b> (kata<b>michi</b> - viagem só de ida)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: <b>道</b>に迷いました。(<b>michi</b> ni mayoimashita - Eu me perdi no caminho.)</span>"
+    ],
+    "hpBase": 55,
+    "atk": 8
+  },
+  {
+    "id": 94,
+    "kanji": "国",
+    "romaji": [
+      "kuni",
+      "koku",
+      "goku"
+    ],
+    "sig": [
+      "pais",
+      "nacao"
+    ],
+    "vocab": [
+      "外<b>国</b> (gai<b>koku</b> - país estrangeiro)",
+      "中<b>国</b> (chuu<b>goku</b> - China)",
+      "<b>国</b>内 (<b>koku</b>nai - doméstico/interno)",
+      "<span style=\"color:#bdc3c7;\">💬 Frase: あなたの<b>国</b>はどこですか？ (anata no <b>kuni</b> wa doko desu ka? - De qual país você é?)</span>"
+    ],
+    "hpBase": 65,
+    "atk": 9
+  }
+]
