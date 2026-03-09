@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
@@ -13,400 +14,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>KanjiMon Ultimate</title>
-    <style>
-        /* Destaque da sílaba do Kanji no Vocabulário */
-        #modal-details-vocab b { color: var(--gold); font-weight: 900; text-shadow: 0 0 5px rgba(241,196,15,0.4); }
-        /* Destaque Rosa para Jukujikun (Palavra Inteira / Exceções) */
-        #modal-details-vocab em { color: #ff47a3; font-weight: 900; font-style: normal; text-shadow: 0 0 5px rgba(255,71,163,0.5); }
-
-        /* --- CAIXA DE DIÁLOGO RPG --- */
-        .rpg-dialog-overlay { display: none; position: fixed; inset: 0; z-index: 10000; align-items: flex-end; justify-content: center; padding: 20px; background: transparent; }
-        .rpg-dialog-overlay.active { display: flex; }
-        .rpg-dialog-box { background: linear-gradient(135deg, rgba(20,20,30,0.95), rgba(0,0,0,0.95)); border: 3px solid var(--gold); border-radius: 12px; width: 100%; max-width: 600px; min-height: 100px; padding: 20px; color: #fff; font-size: 18px; font-weight: bold; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(241,196,15,0.2); cursor: pointer; text-align: left; line-height: 1.4; font-family: 'Segoe UI', sans-serif;}
-        .rpg-dialog-arrow { position: absolute; bottom: 15px; right: 20px; color: var(--gold); font-size: 20px; animation: bounceArrow 0.6s infinite alternate; display: none; }
-        @keyframes bounceArrow { 0% { transform: translateY(0); } 100% { transform: translateY(8px); } }
-        
-        @media (max-width: 600px) { .rpg-dialog-box { font-size: 16px; padding: 15px; min-height: 90px; } }
-
-        /* --- LOGOTIPO ANIMADO (FLUTUAÇÃO E BRILHO) --- */
-        .logo-kanjimon {
-            width: 100%;
-            max-width: 320px; /* Tamanho ajustado agora que a imagem está sem sobras */
-            height: auto;
-            display: block;
-            margin: 15px auto 25px auto; /* Margem normal e correta */
-            pointer-events: none;
-            filter: drop-shadow(0 0 10px rgba(52, 152, 219, 0.4)); 
-            animation: floatLogo 4s ease-in-out infinite; 
-            position: relative;
-            z-index: 10;
-        }
-
-        @keyframes floatLogo {
-            0%, 100% { 
-                transform: translateY(0); 
-                filter: drop-shadow(0 0 10px rgba(52, 152, 219, 0.4)); 
-            }
-            50% { 
-                transform: translateY(-8px); 
-                filter: drop-shadow(0 0 25px rgba(52, 152, 219, 0.9)); 
-            }
-        }
-
-        /* --- INDICADOR DE SCROLL MOBILE --- */
-        #scroll-indicator {
-            display: none; /* Escondido no PC */
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(20, 20, 30, 0.95);
-            color: var(--gold);
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            border: 1px solid var(--gold);
-            z-index: 9000;
-            pointer-events: none; /* O clique atravessa ele */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        #scroll-indicator.visible {
-            opacity: 1;
-            animation: floatScroll 1.5s infinite ease-in-out;
-        }
-        @keyframes floatScroll {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, 8px); }
-        }
-        /* Só aparece em telas de celular */
-        @media (max-width: 600px) {
-            #scroll-indicator { display: block; }
-        }
-        
-        /* --- NINTENDO UI (MENU PRINCIPAL) --- */
-        .menu-panel { background: rgba(20, 20, 30, 0.6); border: 2px solid #333; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .menu-panel-title { text-align: left; font-size: 13px; color: #888; font-weight: 900; letter-spacing: 1px; border-bottom: 2px solid #333; padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
-        .menu-btn-grid { display: flex; gap: 12px; }
-        
-        /* Base do Botão */
-        .btn-nintendo { display: flex; align-items: center; justify-content: center; gap: 12px; border: none !important; border-radius: 10px; padding: 14px; font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 15px; color: #fff; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s, filter 0.2s; position: relative; overflow: hidden; box-shadow: 0 6px 0 rgba(0,0,0,0.5); text-transform: none; margin: 0; width: 100%; box-sizing: border-box;}
-        
-        /* A Física de Clique (Corrige o Hover Vermelho Antigo) */
-        button.btn-nintendo:hover:not(:disabled) { transform: translateY(2px) !important; filter: brightness(1.1); border-color: transparent !important; }
-        button.btn-nintendo:active:not(:disabled) { transform: translateY(6px) !important; filter: brightness(0.9); }
-        
-        .btn-nintendo .btn-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.2;}
-        .btn-nintendo .btn-text strong { font-size: 15px; letter-spacing: 0.5px;}
-        .btn-nintendo .btn-text span { font-size: 11px; font-weight: normal; opacity: 0.8; margin-top: 2px;}
-        .btn-nintendo .btn-icon { font-size: 24px; }
-        
-        /* Cores Blindadas (O !important impede o CSS velho de estragar a cor) */
-        .btn-hunt { background: linear-gradient(135deg, #27ae60, #2ecc71) !important; box-shadow: 0 6px 0 #1e8449 !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-        button.btn-hunt:hover:not(:disabled) { box-shadow: 0 4px 0 #1e8449 !important; }
-        button.btn-hunt:active:not(:disabled) { box-shadow: 0 0 0 #1e8449 !important; }
-        .btn-hunt .btn-bg-hunt { position: absolute; inset: 0; background: url('assets/fundo-caçada.jpg') center/cover; opacity: 0.3; mix-blend-mode: overlay; pointer-events: none;}
-        
-        .btn-gym { background: linear-gradient(135deg, #8e44ad, #9b59b6) !important; box-shadow: 0 6px 0 #5b2c6f !important; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); border: 1px solid #d2b4de !important;}
-        button.btn-gym:hover:not(:disabled) { box-shadow: 0 4px 0 #5b2c6f !important; }
-        button.btn-gym:active:not(:disabled) { box-shadow: 0 0 0 #5b2c6f !important; }
-        .btn-gym .btn-bg-boss { position: absolute; inset: 0; background: url('assets/arena-boss.png') center/cover; opacity: 0.35; mix-blend-mode: overlay; pointer-events: none;}
-        
-        /* Booster agora centralizado e com limite de largura */
-        .btn-booster { background: linear-gradient(135deg, #f39c12, #f1c40f) !important; color: #000 !important; font-size: 16px; margin: 0 auto 15px auto !important; max-width: 450px; box-shadow: 0 6px 0 #b9770e, 0 0 20px rgba(241,196,15,0.4) !important; text-shadow: none;}
-        button.btn-booster:hover:not(:disabled) { box-shadow: 0 4px 0 #b9770e, 0 0 25px rgba(241,196,15,0.6) !important; }
-        button.btn-booster:active:not(:disabled) { box-shadow: 0 0 0 #b9770e !important; }
-        
-        .btn-heal { background: #2ecc71 !important; color: #000 !important; box-shadow: 0 6px 0 #229954 !important; text-shadow: none;}
-        button.btn-heal:hover:not(:disabled) { box-shadow: 0 4px 0 #229954 !important; }
-        button.btn-heal:active:not(:disabled) { box-shadow: 0 0 0 #229954 !important; }
-        
-        .btn-potion { background: #3498db !important; box-shadow: 0 6px 0 #21618c !important; text-shadow: none;}
-        button.btn-potion:hover:not(:disabled) { box-shadow: 0 4px 0 #21618c !important; }
-        button.btn-potion:active:not(:disabled) { box-shadow: 0 0 0 #21618c !important; }
-        
-        /* Pokedex centralizada e com limite de largura */
-        .btn-pokedex { background: #34495e !important; box-shadow: 0 6px 0 #1a252f !important; font-size: 16px; text-shadow: none; margin: 0 auto !important; max-width: 450px;}
-        button.btn-pokedex:hover:not(:disabled) { box-shadow: 0 4px 0 #1a252f !important; }
-        button.btn-pokedex:active:not(:disabled) { box-shadow: 0 0 0 #1a252f !important; }
-
-        @media (max-width: 600px) {
-            .menu-btn-grid { flex-direction: column; gap: 12px; }
-            .btn-nintendo { justify-content: flex-start; padding: 12px 15px; }
-            .btn-booster, .btn-heal, .btn-potion, .btn-pokedex { justify-content: center; }
-            .menu-panel { padding: 15px; border-width: 1px; }
-        }
-
-        :root { --bg: #0a0a12; --panel: #161625; --primary: #e94560; --text: #eaeaea; --success: #2ecc71; --gold: #f1c40f; --silver: #bdc3c7; --bronze: #cd7f32; --danger: #e74c3c; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); text-align: center; margin: 0; padding: 10px; user-select: none; overflow-x: hidden; touch-action: manipulation; }
-        #game-wrapper { max-width: 850px; margin: 0 auto; background: var(--panel); border: 3px solid #333; border-radius: 10px; padding: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.8); box-sizing: border-box;}
-        
-        /* HUD RPG */
-        .hud { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; background: #000; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-weight: bold; border: 1px solid #333; font-size: 14px; align-items: center;}
-        .hud > div { background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 4px; }
-        .bar-container { width: 100px; background: #222; height: 15px; border-radius: 8px; overflow: hidden; border: 1px solid #555; display: inline-block; vertical-align: middle; margin: 0 5px; }
-        .hp-bar { height: 100%; background: #e74c3c; width: 100%; transition: width 0.3s; }
-        .xp-bar { height: 100%; background: #3498db; width: 0%; transition: width 0.3s; }
-
-        .screen { display: none; padding: 5px; }
-        .screen.active { display: block; animation: fadeIn 0.4s; }
-        button { background: #333; color: white; border: 1px solid #666; padding: 12px 18px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s; text-transform: uppercase; margin: 5px; }
-        button:hover:not(:disabled) { background: var(--primary); border-color: #fff; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        button:active:not(:disabled) { transform: translateY(0); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* --- ILUMINAÇÃO DE RARIDADE --- */
-        .r-c { border-color: #7f8c8d; }
-        .dex-entry.r-r, .r-r .card-border-clip { border-color: var(--silver); box-shadow: 0 0 15px var(--silver); }
-        .dex-entry.r-sr, .r-sr .card-border-clip { border-color: var(--gold); box-shadow: 0 0 20px var(--gold); }
-        .dex-entry.r-ur, .r-ur .card-border-clip { border-color: #ff9f43; box-shadow: 0 0 25px #ff9f43; animation: ur-pulse 1.5s infinite; }
-        .dex-entry.r-lr, .r-lr .card-border-clip { border-color: #ff00ff; box-shadow: 0 0 35px #ff00ff; animation: rainbow-border 3s infinite; }
-
-        @keyframes rainbow-border { 0% { box-shadow: 0 0 15px #ff0000; border-color: #ff0000; } 33% { box-shadow: 0 0 30px #00ff00; border-color: #00ff00; } 66% { box-shadow: 0 0 30px #0000ff; border-color: #0000ff; } 100% { box-shadow: 0 0 15px #ff0000; border-color: #ff0000; } }
-        @keyframes ur-pulse { 0% { box-shadow: 0 0 10px #ff9f43; } 50% { box-shadow: 0 0 30px #ff9f43; } 100% { box-shadow: 0 0 10px #ff9f43; } }
-
-        /* POKEDEX */
-        .pokedex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-top: 15px; }
-        .dex-entry { background: rgba(30, 30, 50, 0.6); border: 2px solid #444; padding: 10px; border-radius: 8px; position: relative; transition: 0.2s; cursor: pointer; }
-        .dex-entry:hover { transform: scale(1.05); z-index: 10; }
-        .dex-kanji { font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif; font-size: 40px; margin: 5px 0; background: transparent !important; color: #fff; text-shadow: 2px 2px 4px #000; }
-        .dex-entry.locked { opacity: 0.3; cursor: default; }
-
-        /* Ferramentas Pokedex */
-        .pokedex-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .pokedex-controls { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-        .pokedex-controls input { flex: 2; min-width: 140px; padding: 12px; border-radius: 6px; background: #111; border: 1px solid #555; color: #fff; font-size: 14px; }
-        .pokedex-controls select { flex: 1; min-width: 120px; padding: 12px; border-radius: 6px; background: #111; border: 1px solid #555; color: #fff; font-size: 13px; cursor: pointer; }
-        .pokedex-controls input:focus, .pokedex-controls select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(233, 69, 96, 0.3); }
-
-        /* --- MODAL COM EFEITO 3D HOLOGRÁFICO --- */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;}
-        .modal.active { display: flex; opacity: 1; }
-        .modal-content { display: flex; flex-direction: column; align-items: center; max-width: 95vw; max-height: 95vh; position: relative; width: 100%;}
-        #modal-image-container { perspective: 1200px; display: flex; justify-content: center; align-items: center; width: 100%;}
-        .card-image-wrapper { position: relative; display: inline-block; border-radius: 12px; max-width: 380px; width: 85vw; transform-style: preserve-3d; will-change: transform; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        .card-border-clip { border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.9); overflow: hidden; background: #111; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; min-height: 300px;}
-        .modal-card-img { display: block; width: 100%; height: auto; max-height: 70vh; object-fit: cover; }
-        .holo, .gloss { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: color-dodge; opacity: 0.7; transform: translateZ(15px); transition: opacity 0.3s; border-radius: 12px; }
-        .gloss { mix-blend-mode: screen; opacity: 0.6; }
-        
-        .kanji-overlay { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) translateZ(50px); 
-            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif; font-size: 110px; font-weight: 700; 
-            z-index: 10; pointer-events: none; color: #fff; 
-            text-shadow: -2px -2px 0 #111, 2px -2px 0 #111, -2px 2px 0 #111, 2px 2px 0 #111, 0 8px 15px rgba(0,0,0,0.7);
-            line-height: 1; opacity: 0.95; 
-        }
-        
-        .text-rainbow { animation: tr-anim 3s linear infinite; }
-        @keyframes tr-anim { 0% { filter: drop-shadow(0 0 20px #ff0000); } 33% { filter: drop-shadow(0 0 20px #00ff00); } 66% { filter: drop-shadow(0 0 20px #0000ff); } 100% { filter: drop-shadow(0 0 20px #ff0000); } }
-
-        /* --- SISTEMA GACHA 3D DOPAMINÉRGICO --- */
-        .gacha-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
-        .gacha-card-wrapper { position: relative; width: 140px; height: 190px; perspective: 1000px; cursor: pointer; transition: transform 0.2s; }
-        .gacha-card-wrapper:hover { transform: scale(1.05) translateY(-5px); }
-        .card-inner { width: 100%; height: 100%; transform-style: preserve-3d; position: relative; }
-        
-        .card-inner.epic-flip { animation: epicFlipAnim 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes epicFlipAnim { 0% { transform: scale(1) rotateY(0deg); } 40% { transform: scale(1.3) rotateY(90deg) translateY(-20px); } 60% { transform: scale(1.3) rotateY(90deg) translateY(-20px); } 100% { transform: scale(1) rotateY(180deg) translateY(0); } }
-        
-        .gacha-card-wrapper.flipped .card-inner { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; border: 4px solid #444; }
-        .card-back { background: repeating-linear-gradient(45deg, #111, #111 10px, #222 10px, #222 20px); color: var(--gold); font-size: 50px; font-weight: bold; border-color: #555; transition: 0.3s; }
-        
-        .tease-sr { box-shadow: 0 0 25px rgba(241,196,15,0.6), inset 0 0 10px rgba(241,196,15,0.4); animation: pulseTeaseSR 1.5s infinite; border-color: var(--gold); }
-        .tease-ur { box-shadow: 0 0 35px rgba(255,159,67,0.8), inset 0 0 15px rgba(255,159,67,0.5); animation: pulseTeaseUR 1s infinite; border-color: #ff9f43; }
-        .tease-lr { box-shadow: 0 0 45px rgba(255,0,255,0.8), inset 0 0 20px rgba(0,255,255,0.5); animation: pulseTeaseLR 0.6s infinite; border-color: #ff00ff; }
-        
-        @keyframes pulseTeaseSR { 0%, 100% { box-shadow: 0 0 15px rgba(241,196,15,0.4); } 50% { box-shadow: 0 0 40px rgba(241,196,15,1); } }
-        @keyframes pulseTeaseUR { 0%, 100% { box-shadow: 0 0 20px rgba(255,159,67,0.5); } 50% { box-shadow: 0 0 50px rgba(255,159,67,1); } }
-        @keyframes pulseTeaseLR { 0% { box-shadow: 0 0 30px #ff0000; border-color: #ff0000; } 33% { box-shadow: 0 0 60px #00ff00; border-color: #00ff00; } 66% { box-shadow: 0 0 60px #0000ff; border-color: #0000ff; } 100% { box-shadow: 0 0 30px #ff0000; border-color: #ff0000; } }
-
-        .light-rays { position: absolute; top: 50%; left: 50%; width: 500px; height: 500px; margin-left: -250px; margin-top: -250px; border-radius: 50%; animation: spinRays 8s linear infinite; pointer-events: none; opacity: 0; z-index: -1; transition: opacity 0.8s; }
-        .gacha-card-wrapper.flipped .light-rays.active { opacity: 1; }
-        @keyframes spinRays { from { transform: rotate(0deg) scale(0.8); } to { transform: rotate(360deg) scale(1.1); } }
-
-        .card-flash { position: absolute; inset: -30px; background: #fff; z-index: 100; border-radius: 15px; opacity: 0; pointer-events: none; }
-        .flash-boom { animation: boomFlash 0.6s ease-out forwards; }
-        @keyframes boomFlash { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.6); } }
-
-        .card-front { transform: rotateY(180deg); font-family: 'Noto Sans JP', sans-serif;}
-        .gacha-card-wrapper .card-front.r-c { background: #111; color: #fff; border-color: #7f8c8d; }
-        .gacha-card-wrapper .card-front.r-r { background: radial-gradient(circle at center, #2a2a35, #000); color: var(--silver); border-color: var(--silver); text-shadow: 0 0 8px var(--silver); }
-        .gacha-card-wrapper .card-front.r-sr { background: radial-gradient(circle at center, #3a2e00, #000); color: var(--gold); border-color: var(--gold); text-shadow: 0 0 12px var(--gold); }
-        .gacha-card-wrapper .card-front.r-ur { background: radial-gradient(circle at center, #4a2000, #000); color: #ff9f43; border-color: #ff9f43; text-shadow: 0 0 15px #ff9f43; }
-        .gacha-card-wrapper .card-front.r-lr { background: linear-gradient(135deg, #2b003b, #000, #00133b); background-size: 200% 200%; animation: bg-pan 3s infinite; color: #fff; border-color: #ff00ff; text-shadow: 0 0 20px #ff00ff; }
-        @keyframes bg-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        /* --- ANIMAÇÕES GERAIS --- */
-
-        /* --- EFEITO FOIL NO BOOSTER E QUEDA DE CARTAS --- */
-        .booster-pack { position: relative; overflow: hidden; cursor: pointer; transition: transform 0.1s; z-index: 10; }
-        .booster-pack:active { transform: scale(0.95); } /* Afunda ao clicar */
-        .booster-pack::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.4) 55%, transparent 60%);
-            animation: foilGleam 3s infinite linear; pointer-events: none; mix-blend-mode: overlay;
-        }
-        @keyframes foilGleam { 0% { transform: translate(-40%, -40%); } 100% { transform: translate(40%, 40%); } }
-        
-        .click-to-open { color: var(--gold); font-size: 15px; margin-top: 30px; font-weight: 900; letter-spacing: 2px; z-index: 10; animation: pulseTextHint 1.5s infinite; text-shadow: 0 0 10px rgba(0,0,0,1); pointer-events: none; }
-        
-        @keyframes pulseTextHint { 
-            0%, 100% { opacity: 0.6; transform: scale(1); } 
-            50% { opacity: 1; transform: scale(1.05); } 
-        }
-        
-        /* Física das Cartas caindo na mesa */
-        .card-drop-anim { animation: cardDrop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
-        @keyframes cardDrop {
-            0% { transform: translateY(-150px) scale(0.5) rotate(-15deg); opacity: 0; }
-            100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        .booster-overlay { position: fixed; inset: 0; background: radial-gradient(circle at center, #111 0%, #000 80%); display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 9998; }
-        .booster-pack { width: 200px; height: 280px; border-radius: 15px; background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: var(--gold); box-shadow: 0 0 30px rgba(241,196,15,0.5); transform-style: preserve-3d; z-index: 2; text-shadow: 0 0 10px var(--gold); }
-        .energy { position: absolute; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(241,196,15,0.4), transparent 65%); animation: energyPulse 1.5s infinite; z-index: 1; }
-        .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.2s ease-out; z-index: 9999; }
-        
-        .particle { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; pointer-events: none; animation: particleMove 0.8s forwards cubic-bezier(0.1, 0.8, 0.3, 1); z-index: 200; box-shadow: 0 0 15px #fff; }
-        @keyframes particleMove { 0% { transform: translate(0, 0) scale(1.5); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
-        
-        @keyframes packFloat { 0% { transform: translateY(0px) rotateY(0deg); } 50% { transform: translateY(-15px) rotateY(10deg); } 100% { transform: translateY(0px) rotateY(0deg); } }
-        @keyframes packTension { 
-            0% { transform: scale(1) rotate(0deg); filter: brightness(1); } 
-            40% { transform: scale(1.1) rotate(3deg); filter: brightness(1.3); box-shadow: 0 0 50px var(--gold); } 
-            80% { transform: scale(1.1) rotate(-3deg); filter: brightness(1.6); box-shadow: 0 0 80px var(--gold); } 
-            100% { transform: scale(0.85) rotate(0deg); filter: brightness(2); } 
-        }
-        @keyframes energyPulse { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }
-
-        /* --- SISTEMA DE BATALHA DINÂMICO (Base Limpa) --- */
-        .battle-arena { background: #111; border-radius: 12px; padding: 25px 15px; border: 3px solid #555; margin-bottom: 20px; position: relative; min-height: 220px; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9); }
-        .arena-flash-red { position: absolute; inset: 0; background: rgba(231, 76, 60, 0.4); opacity: 0; pointer-events: none; z-index: 5; }
-
-        /* --- GINÁSIO ÉPICO (BOSS FIGHT COM IMAGEM) --- */
-        .battle-arena.gym-mode { 
-            /* A película preta/vermelha vem primeiro, a imagem vem depois */
-            background: linear-gradient(rgba(20,0,0,0.7), rgba(0,0,0,0.95)), url('assets/arena-boss.png'); 
-            background-size: cover; 
-            background-position: center; 
-            border-color: var(--danger); 
-            box-shadow: inset 0 0 80px rgba(231, 76, 60, 0.6); 
-        }
-        
-        .boss-sprite { transform: scale(1.3); animation: bossPulse 1.5s infinite alternate !important; border-color: var(--danger) !important; color: #fff; box-shadow: 0 0 40px rgba(231,76,60,0.8) !important; z-index: 50; }
-        
-        @keyframes bossPulse { 
-            0% { transform: scale(1.3) translateY(0); text-shadow: 0 0 10px red; } 
-            100% { transform: scale(1.4) translateY(-8px); text-shadow: 0 0 30px red, 0 0 50px var(--gold); box-shadow: 0 0 70px rgba(231,76,60,1) !important; } 
-        }
-        
-        /* --- CAÇADA CONTÍNUA (EXPLORAÇÃO) --- */
-        .battle-arena.hunt-mode { 
-            background: linear-gradient(rgba(10, 25, 15, 0.5), rgba(0, 10, 5, 0.6)), 
-                        url('assets/gramado.png');
-            background-size: cover; 
-            background-position: center;
-            border-color: #27ae60; 
-            box-shadow: inset 0 0 60px rgba(46, 204, 113, 0.3); 
-        }
-
-        .enemy-sprite { font-size: 90px; background: radial-gradient(circle, rgba(30,30,30,0.9), rgba(0,0,0,0.9)); width: 150px; height: 150px; line-height: 150px; border-radius: 50%; margin: 25px auto 10px; border: 4px solid #fff; transition: transform 0.2s, box-shadow 0.3s; font-family: 'Noto Sans JP', sans-serif; position: relative; z-index: 10; animation: breathe 3s infinite ease-in-out; box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
-        
-        @keyframes breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.03); } }
-        .hit-shake { animation: hitShake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
-        @keyframes hitShake { 10%, 90% { transform: translate3d(-4px, 0, 0); } 20%, 80% { transform: translate3d(6px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-8px, 0, 0); } 40%, 60% { transform: translate3d(8px, 0, 0); } }
-
-        .enemy-hp-container { margin: 10px auto 0; width: 80%; max-width: 250px; text-align: center; position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 8px; border-radius: 10px; border: 1px solid #444; }
-        .enemy-hp-bar-bg { width: 100%; height: 16px; background: #222; border-radius: 10px; overflow: hidden; border: 2px solid #111; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
-        .enemy-hp-bar-fill { height: 100%; width: 100%; background: linear-gradient(90deg, #2ecc71, #27ae60); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s; }
-        .enemy-hp-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 11px; font-weight: 900; line-height: 16px; color: white; text-shadow: 1px 1px 2px black; pointer-events: none; }
-
-        .dmg-text { position: absolute; font-weight: 900; font-size: 24px; z-index: 100; pointer-events: none; text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 4px 10px rgba(0,0,0,0.8); animation: floatDmg 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
-        @keyframes floatDmg { 0% { opacity: 1; transform: translateY(0) scale(0.5); } 20% { transform: translateY(-30px) scale(1.3); } 100% { opacity: 0; transform: translateY(-70px) scale(1); } }
-        
-        .attack-slash { position: absolute; background: white; z-index: 20; pointer-events: none; border-radius: 50%; filter: blur(2px); animation: slashAnim 0.3s ease-out forwards; }
-        @keyframes slashAnim { 0% { width: 0px; height: 4px; opacity: 1; } 50% { width: 250px; height: 8px; opacity: 1; } 100% { width: 300px; height: 0px; opacity: 0; } }
-
-        .player-input-area { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        /* Bloqueia autocorretores que estragariam o Romaji */
-        input[type="text"] { padding: 14px; font-size: 16px; border-radius: 8px; border: 2px solid #555; background: #111; color: #fff; width: 60%; text-align: center; outline: none; transition: border-color 0.3s; }
-        input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(233, 69, 96, 0.5); }
-        
-        .card-count { position: absolute; top: 4px; right: 4px; background: var(--primary); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; line-height: 20px; font-weight: bold;}
-        .log-box { height: 90px; background: rgba(0,0,0,0.8); border: 2px solid #444; overflow-y: auto; padding: 10px; text-align: left; font-size: 13px; margin-top: 15px; border-radius: 8px; color: #ddd; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
-        .medal { font-size: 10px; padding: 2px 5px; border-radius: 3px; font-weight: bold; margin-top: 3px; display: inline-block; }
-        .m-bronze { background: var(--bronze); color: #fff; } .m-silver { background: var(--silver); color: #000; } .m-gold { background: var(--gold); color: #000; box-shadow: 0 0 5px var(--gold); }
-        .close-modal { position: absolute; top: -50px; right: 10px; color: #fff; font-size: 45px; cursor: pointer; font-weight: bold; z-index: 999999; text-shadow: 0 4px 15px rgba(0,0,0,1); }
-
-        /* --- EFEITOS PREMIUM LENDÁRIA (KANJIDEX) --- */
-        .modal-lr-aura {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 130vw; height: 130vw; max-width: 500px; max-height: 500px;
-            background: radial-gradient(circle, rgba(255,0,255,0.15) 0%, rgba(0,255,255,0.1) 30%, transparent 70%);
-            pointer-events: none; z-index: 0;
-            animation: pulseAura 3s infinite alternate ease-in-out;
-        }
-        @keyframes pulseAura { 0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.5; } 100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; } }
-
-        .modal-spark {
-            position: absolute; width: 4px; height: 4px; border-radius: 50%;
-            pointer-events: none; z-index: 1; opacity: 0;
-            animation: floatSpark linear infinite;
-            will-change: transform, opacity; /* <-- O Segredo que tira o peso da RAM e joga pra Placa de Vídeo */
-        }
-        @keyframes floatSpark {
-            0% { transform: translateY(20px) scale(0.5); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
-        }
-
-        /* Elevador para a carta levitar sem quebrar o 3D do mouse */
-        .levitate-wrapper { display: flex; justify-content: center; align-items: center; transform-style: preserve-3d; z-index: 10; position: relative; }
-        .levitate-anim { animation: levitateAnim 4s infinite ease-in-out; }
-        @keyframes levitateAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        /* --- ADAPTAÇÃO TOTAL PARA MOBILE (SMARTPHONES) --- */
-        @media (max-width: 600px) {
-            #game-wrapper { padding: 12px; border-width: 2px; }
-            .hud { justify-content: center; font-size: 12px; gap: 5px; padding: 8px;}
-            .bar-container { width: 70px; }
-            
-            #screen-main button { width: 100%; margin: 6px 0; padding: 16px; font-size: 16px; display: block; box-sizing: border-box;}
-            #screen-main br { display: none; }
-            
-            .gacha-container { gap: 10px; margin-top: 30px; }
-            .gacha-card-wrapper { width: 95px; height: 135px; } 
-            .card-back { font-size: 40px; }
-            .card-front > div:first-child { font-size: 45px !important; }
-            .card-front > div:last-child { font-size: 11px !important; }
-            
-            .enemy-sprite { width: 120px; height: 120px; line-height: 120px; font-size: 70px; margin: 20px auto 10px; }
-            .battle-arena { padding: 15px 10px; min-height: 180px;}
-            
-            .player-input-area { flex-direction: column; width: 100%; }
-            input[type="text"] { width: 100%; padding: 15px; font-size: 18px; box-sizing: border-box; } 
-            .player-input-area button { width: 100%; padding: 15px; margin: 0; }
-            
-            #screen-battle > div > button { padding: 12px 10px; font-size: 13px; margin: 4px 2px; }
-            
-            .kanji-overlay { font-size: 90px; }
-
-            /* Ajuste do Modal Corrigido (Sem cortes na carta) */
-            .modal { align-items: flex-start; padding-top: 50px; padding-bottom: 30px; overflow-y: auto; }
-            .card-image-wrapper { width: auto; max-width: 90vw; } /* Libera a largura para acompanhar a altura */
-            .card-border-clip { min-height: auto; width: auto; }
-            .modal-card-img { width: auto; max-height: 48vh; object-fit: contain; } /* Mantém a proporção exata sem dar zoom */
-            .close-modal { top: -45px; right: 0px; font-size: 45px; }
-
-            /* Controles Pokedex no Celular */
-            .pokedex-controls { flex-direction: column; }
-            .pokedex-controls input, .pokedex-controls select { width: 100%; box-sizing: border-box; }
-        }
-    </style>
 </head>
 <body>
 
@@ -620,26 +227,22 @@
         }
 
 
-        //agora vai puxar do kanjis.json
-        let DATABASE = [];
-        async function carregarDados() {
+    let DATABASE = [];
+
+    async function carregarDados() {
         try {
-            const response = await fetch('kanjis.json');
+            const response = await fetch('kanji.json');
             
+            if (!response.ok) throw new Error('Falha ao carregar kanji.json');
 
             DATABASE = await response.json();
-            
-            console.log("Database carregada:", DATABASE.length, "kanjis encontrados.");
 
             inicializar(); 
 
         } catch (error) {
-            console.error("Erro ao carregar o arquivo JSON:", error);
+            console.error("Erro:", error);
         }
     }
-    carregarDados();
-
-
 
     function inicializar() {
         DATABASE.forEach(k => {
@@ -669,6 +272,8 @@
 
         init(); 
     }
+
+    carregarDados();
 
     const RARITIES = {
         'c': { name: 'Comum', rate: 80.9, catchChance: 1.0, statMult: 1.0, color: 'r-c' },
