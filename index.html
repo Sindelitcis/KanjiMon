@@ -40,7 +40,7 @@
 
     <!-- TUT BLOCKER -->
     <div id="tut-blocker" style="display:none;position:fixed;inset:0;z-index:9300;background:rgba(0,0,0,0.55);pointer-events:all;"></div>
-    <div id="tut-arrow" style="display:none;position:fixed;z-index:9500;font-size:28px;pointer-events:none;filter:drop-shadow(0 0 8px #f1c40f);animation:tutArrowBounce 0.7s infinite alternate;">👆</div>
+    <div id="tut-arrow" style="display:none;position:fixed;z-index:9500;font-size:28px;pointer-events:none;filter:drop-shadow(0 0 8px #f1c40f);animation:tutArrowBounce 0.7s infinite alternate;">👇</div>
 
         <div id="screen-main" class="screen active">
         
@@ -1994,7 +1994,17 @@
                 const r = el.getBoundingClientRect();
                 arrow.style.display = 'block';
                 arrow.style.left = (r.left + r.width / 2 - 14) + 'px';
-                arrow.style.top  = Math.max(4, r.top - 44) + 'px';
+                // Posiciona abaixo do elemento — 👇 aponta para o alvo sem cobri-lo
+                const abaixo = r.bottom + 6;
+                const maxTop = window.innerHeight - 50;
+                // Se não couber abaixo (elemento perto do fundo), coloca acima com 👆
+                if (abaixo > maxTop) {
+                    arrow.innerText = '👆';
+                    arrow.style.top = Math.max(4, r.top - 42) + 'px';
+                } else {
+                    arrow.innerText = '👇';
+                    arrow.style.top = abaixo + 'px';
+                }
             }, 400);
         }
     }
@@ -2073,7 +2083,7 @@
         // ---- 3. AGUARDA CAÇADA ----
         case TUT_STEPS.AGUARDA_CACADA:
             tutBloquear('.btn-hunt');
-            mostrarDica("👆 Toque em <b>🌿 Caçada Contínua</b> para começar!");
+            mostrarDica("👇 Toque em <b>🌿 Caçada Contínua</b> para começar!");
             break;
 
         // ---- 4. INTRO DA CAÇADA ----
@@ -2108,7 +2118,7 @@
         // ---- 6. AGUARDA ACERTO ----
         case TUT_STEPS.AGUARDA_ACERTO:
             tutBloquear('#choice-area');
-            mostrarDica("👆 Toque em uma das <b>4 opções</b> para atacar o Kanji!");
+            mostrarDica("👇 Toque em uma das <b>4 opções</b> para atacar o Kanji!");
             break;
 
         // ---- 7. PÓS ACERTO ----
@@ -2130,7 +2140,7 @@
         // ---- 8. AGUARDA INSPECIONAR ----
         case TUT_STEPS.AGUARDA_INSPECT:
             tutBloquear('button[onclick="analisarInimigo()"]');
-            mostrarDica("👆 Toque em <b>🔍 Inspecionar</b>!");
+            mostrarDica("👇 Toque em <b>🔍 Inspecionar</b>!");
             break;
 
         // ---- 9. APÓS INSPECIONAR ----
@@ -2159,7 +2169,7 @@
         // ---- 11. AGUARDA FUGA ----
         case TUT_STEPS.AGUARDA_FUGA:
             tutBloquear('#btn-fugir');
-            mostrarDica("👆 Toque em <b>Fugir 🏃</b>!");
+            mostrarDica("👇 Toque em <b>Fugir 🏃</b>!");
             break;
 
         // ---- 12. MENU PÓS FUGA ----
@@ -2185,7 +2195,7 @@
                 salvarJogo();
             }
             tutBloquear('.btn-booster');
-            mostrarDica("👆 Toque em <b>✨ Abrir Booster</b>!");
+            mostrarDica("👇 Toque em <b>✨ Abrir Booster</b>!");
             break;
 
         // ---- 14. GACHA REVELANDO ----
@@ -2207,7 +2217,7 @@
             // Não bloqueia as cartas — o jogador precisa revelar livremente.
             // Bloqueia apenas o botão Voltar se ele aparecer antes de revelar tudo.
             // O avanço acontece quando o jogador clica em "Recolher Cartas"
-            mostrarDica("👆 Toque nas cartas para revelar. Depois clique em <b>Recolher Cartas</b>!");
+            mostrarDica("👇 Toque nas cartas para revelar. Depois clique em <b>Recolher Cartas</b>!");
             break;
 
         // ---- 16. MENU PÓS BOOSTER ----
@@ -2226,7 +2236,7 @@
         // ---- 17. AGUARDA KANJIDEX ----
         case TUT_STEPS.AGUARDA_KANJIDEX:
             tutBloquear('.btn-pokedex');
-            mostrarDica("👆 Toque em <b>📖 Abrir KanjiDex</b>!");
+            mostrarDica("👇 Toque em <b>📖 Abrir KanjiDex</b>!");
             break;
 
         // ---- 18. INTRO KANJIDEX ----
@@ -2257,7 +2267,7 @@
             if (isMobile) {
                 mostrarDica("📱 Role para baixo e selecione <b>✅ Só Obtidas</b> no filtro!");
             } else {
-                mostrarDica("👆 Selecione <b>✅ Só Obtidas</b> no filtro!");
+                mostrarDica("👇 Selecione <b>✅ Só Obtidas</b> no filtro!");
             }
             break;
         }
@@ -2269,7 +2279,7 @@
             if (isMobile2) {
                 mostrarDica("📱 Role para baixo e toque em uma das suas <b>cartas</b>!");
             } else {
-                mostrarDica("👆 Toque em uma das suas <b>cartas</b> para abrir!");
+                mostrarDica("👇 Toque em uma das suas <b>cartas</b> para abrir!");
             }
             break;
         }
