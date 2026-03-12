@@ -44,6 +44,11 @@
 
         <div id="screen-main" class="screen active">
         
+        <!-- KANJI DO DIA + STREAK -->
+        <div id="kanji-do-dia-painel" style="background:linear-gradient(135deg,rgba(20,20,40,0.9),rgba(30,20,60,0.9));border:1px solid rgba(241,196,15,0.3);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 4px 15px rgba(0,0,0,0.4);">
+            <div style="color:#888;font-size:12px;text-align:center;">Carregando Kanji do Dia...</div>
+        </div>
+
         <div class="menu-panel">
             <div class="menu-panel-title" style="display: flex; justify-content: space-between; align-items: center;">
             <span>⚔️ EXPLORAÇÃO & COMBATE</span>
@@ -92,11 +97,19 @@
                 </div>
             </button>
 
+            <button class="btn-nintendo" onclick="abrirRevisaoRapida()" style="background:linear-gradient(135deg,#1a3a6b,#2471a3);box-shadow:0 6px 0 #154360;width:100%;max-width:450px;box-sizing:border-box;margin:10px auto 0 auto;display:flex;">
+                <span class="btn-icon">📚</span>
+                <div class="btn-text">
+                    <strong>Revisão Rápida</strong>
+                    <span>10 Kanjis, sem batalha</span>
+                </div>
+            </button>
+
             <button class="btn-nintendo" onclick="iniciarTutorial(true)" style="background: linear-gradient(135deg, #1a6fa8, #2980b9); box-shadow: 0 6px 0 #1a5276; width: 100%; max-width: 450px; box-sizing: border-box; margin: 12px auto 0 auto; display: flex;">
                 <span class="btn-icon">❓</span>
                 <div class="btn-text">
                     <strong>Como Jogar</strong>
-                    <span>Guia completo + reiniciar dicas</span>
+                    <span>Guia completo</span>
                 </div>
             </button>
 
@@ -153,12 +166,13 @@
         </div>
         
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
-            <button onclick="analisarInimigo()" style="background:#3498db; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">🔍 Inspecionar (-HP)</button>
+            <button onclick="analisarInimigo()" style="background:#3498db; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">🔍 Ver Ficha</button>
             <button onclick="usarPocao()" style="background:var(--success); flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Usar 🧪</button>
             <button onclick="fugir()" id="btn-fugir" style="background:#555; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Fugir 🏃</button>
         </div>
         <div style="text-align:center; margin-top: 8px;">
             <button id="btn-toggle-mode" onclick="alternarModoEntrada()" style="background: rgba(255,255,255,0.08); border: 1px solid #444; border-radius: 20px; font-size: 11px; padding: 5px 14px; color: #aaa; width: auto; display: inline-block;">⌨️ Mudar para Digitação</button>
+            <button id="btn-toggle-invertido" onclick="alternarModoInvertido()" style="background: rgba(255,255,255,0.08); border: 1px solid #555; border-radius: 20px; font-size: 11px; padding: 5px 14px; color: #aaa; width: auto; display: inline-block; margin-left:6px;">🔄 Modo Normal</button>
         </div>
         
         <div class="log-box" id="battle-log"></div>
@@ -335,6 +349,7 @@
 
     let player = { hp: 100, maxHp: 100, level: 1, xp: 0, gold: 150, potions: 3, dex: {}, mastery: {} };
     let inBattle = false, isGymMode = false, gymFightsLeft = 0, enemy = null, enemyTimer = null;
+    let modoInvertido = false; // quando true: mostra significado, resposta é o Kanji
 
     // --- MOTOR NINTENDO (Diálogo e Vibração) ---
     let dialogCallback = null, isTyping = false, fullText = "", typeInterval;
@@ -385,6 +400,54 @@
     }
 }
 
+    // ─── STREAK DIÁRIA & KANJI DO DIA ───────────────────────────────
+    function verificarStreakDiaria() {
+        const hoje = new Date().toDateString();
+        const ultimoDia = localStorage.getItem('kmLastDay');
+        let streak = parseInt(localStorage.getItem('kmStreak') || '0');
+        const kanjiDoDiaIdx = parseInt(localStorage.getItem('kmKanjiDoDia') || '0');
+
+        if (ultimoDia !== hoje) {
+            const ontem = new Date(); ontem.setDate(ontem.getDate() - 1);
+            if (ultimoDia === ontem.toDateString()) {
+                streak++;
+            } else if (ultimoDia !== null) {
+                streak = 1; // quebrou a sequência
+            } else {
+                streak = 1; // primeiro dia
+            }
+            localStorage.setItem('kmLastDay', hoje);
+            localStorage.setItem('kmStreak', streak);
+            // Novo Kanji do Dia
+            const novoIdx = (kanjiDoDiaIdx + 1) % DATABASE.length;
+            localStorage.setItem('kmKanjiDoDia', novoIdx);
+        }
+
+        renderizarKanjiDoDia(kanjiDoDiaIdx, streak);
+    }
+
+    function renderizarKanjiDoDia(idx, streak) {
+        if (!DATABASE.length) return;
+        const k = DATABASE[idx % DATABASE.length];
+        const hist = obterHistoriaKanji(k.kanji);
+        const streakFogo = streak > 1 ? `🔥 <b style="color:var(--gold)">${streak} dias seguidos!</b>` : `🌱 Dia 1 — sua jornada começa!`;
+
+        const painel = document.getElementById('kanji-do-dia-painel');
+        if (!painel) return;
+        painel.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="font-size:52px;color:var(--gold);text-shadow:0 0 15px rgba(241,196,15,0.5);font-family:'Noto Sans JP',sans-serif;line-height:1;">${k.kanji}</div>
+                <div style="flex:1;text-align:left;">
+                    <div style="font-size:11px;color:#888;letter-spacing:1px;text-transform:uppercase;">✨ Kanji do Dia</div>
+                    <div style="font-size:15px;font-weight:bold;color:#fff;">${k.sig[0]}</div>
+                    <div style="font-size:12px;color:#e67e22;">${k.romaji[0]}</div>
+                    <div style="font-size:11px;color:#aaa;margin-top:3px;font-style:italic;">${hist !== '?' ? hist : ''}</div>
+                </div>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#aaa;text-align:center;">${streakFogo}</div>
+        `;
+    }
+
     function init() {
         window.scrollTo(0, 0); // Garante que o F5 sempre abra no topo
         
@@ -401,6 +464,7 @@
         }
 
         atualizarHUD();
+        verificarStreakDiaria();
 
         // Inicia tutorial se não concluído
         if (tutAtivo()) {
@@ -817,7 +881,17 @@
         document.getElementById('battle-title').innerText = isGymMode ? (isBoss ? "🔥 LÍDER DO GINÁSIO 🔥" : `GINÁSIO (Luta ${4 - gymFightsLeft}/3)`) : "Caçada Contínua";
         
         const sprite = document.getElementById('enemy-sprite'); 
-        sprite.innerText = enemy.kanji; 
+        // Modo invertido: mostra o significado, jogador escolhe o Kanji
+        if (modoInvertido) {
+            const sig = enemy.sig[0].toUpperCase();
+            sprite.style.fontSize = sig.length > 8 ? '16px' : sig.length > 5 ? '20px' : '24px';
+            sprite.style.lineHeight = '1.2';
+            sprite.innerText = sig;
+        } else {
+            sprite.style.fontSize = '';
+            sprite.style.lineHeight = '';
+            sprite.innerText = enemy.kanji;
+        }
         sprite.className = `enemy-sprite ${enemy.rColor} ${isBoss ? 'boss-sprite' : ''}`;
         
         // Limpa os efeitos de fúria se houver
@@ -884,6 +958,27 @@
     // ==========================================
     let modoEscolha = true; // true = múltipla escolha, false = digitação
 
+    function alternarModoInvertido() {
+        if (tutAtivo()) return;
+        modoInvertido = !modoInvertido;
+        const btn = document.getElementById('btn-toggle-invertido');
+        if (btn) btn.innerText = modoInvertido ? '🔄 Invertido ✓' : '🔄 Modo Normal';
+        if (inBattle && enemy) {
+            // Atualiza o sprite imediatamente
+            const sprite = document.getElementById('enemy-sprite');
+            if (modoInvertido) {
+                const sig = enemy.sig[0].toUpperCase();
+                // Ajusta o tamanho da fonte baseado no comprimento do texto
+                sprite.style.fontSize = sig.length > 8 ? '16px' : sig.length > 5 ? '20px' : '24px';
+                sprite.innerText = sig;
+            } else {
+                sprite.style.fontSize = '';
+                sprite.innerText = enemy.kanji;
+            }
+            gerarOpcoes(); // regenera opções com nova lógica
+        }
+    }
+
     function alternarModoEntrada() {
         if (tutAtivo()) return;
         modoEscolha = !modoEscolha;
@@ -908,27 +1003,28 @@
         const container = document.getElementById('choice-buttons');
         container.innerHTML = '';
 
-        // Monta pool de distratores (sig do inimigo é a resposta certa)
-        const correta = enemy.sig[0];
+        // Modo invertido: pergunta = significado, resposta = Kanji
+        // Modo normal:    pergunta = Kanji,       resposta = significado
+        const correta = modoInvertido ? enemy.kanji : enemy.sig[0];
         
-        // Pega outros kanjis do pool atual para distratores
         const pool = DATABASE.filter(k => k.id !== enemy.id);
         const embaralhados = pool.sort(() => Math.random() - 0.5);
         const distratores = [];
         for (let k of embaralhados) {
             if (distratores.length >= 3) break;
-            const sig = k.sig[0];
-            if (!distratores.includes(sig) && sig !== correta) distratores.push(sig);
+            const val = modoInvertido ? k.kanji : k.sig[0];
+            if (!distratores.includes(val) && val !== correta) distratores.push(val);
         }
 
-        // Monta as 4 opções
         const opcoes = [correta, ...distratores].sort(() => Math.random() - 0.5);
 
+        // No modo invertido, aumenta a fonte dos botões pois são Kanjis
         opcoes.forEach(opcao => {
             const btn = document.createElement('button');
             btn.className = 'choice-btn';
+            if (modoInvertido) btn.style.fontSize = '26px';
             btn.innerText = opcao;
-            btn.dataset.valor = opcao; // usado para reveal-correct
+            btn.dataset.valor = opcao;
             btn.onclick = () => processarEscolha(opcao, correta, btn, container);
             container.appendChild(btn);
         });
@@ -1018,6 +1114,7 @@
             player.mastery[enemy.kanji].streak = 0;
             document.getElementById('combo-text').style.display = "none";
             criarTextoDano("ERROU!", "#95a5a6", true);
+            mostrarMnemonicoErro(); // ancora a memória no momento do erro
             log(`Escolha errada! Era: ${correta}`, "#e74c3c");
             // Marca o texto do botão correto com checkmark para reforçar visualmente
             container.querySelectorAll('.choice-btn').forEach(b => {
@@ -1029,12 +1126,57 @@
         }
     }
 
+    // Mostra mnemônico flutuante por 3s após errar (ancora memória no momento certo)
+    function mostrarMnemonicoErro() {
+        if (!enemy) return;
+        const hist = obterHistoriaKanji(enemy.kanji);
+        const dica = hist !== '?' 
+            ? `<b style="font-size:18px;color:var(--gold);">${enemy.kanji}</b> = ${enemy.sig[0]} &nbsp;·&nbsp; <i style="color:#aaa;font-size:12px;">${hist}</i>`
+            : `<b style="font-size:18px;color:var(--gold);">${enemy.kanji}</b> = ${enemy.sig[0]} (${enemy.romaji[0]})`;
+        const el = document.createElement('div');
+        el.innerHTML = dica;
+        el.style.cssText = 'position:absolute;bottom:8px;left:50%;transform:translateX(-50%);' +
+            'background:rgba(10,10,30,0.97);border:1px solid var(--gold);border-radius:10px;' +
+            'padding:8px 14px;font-size:13px;color:#fff;z-index:800;text-align:center;' +
+            'max-width:90%;box-shadow:0 0 15px rgba(241,196,15,0.3);pointer-events:none;' +
+            'animation:fadeInUp 0.3s ease;';
+        const arena = document.getElementById('battle-arena');
+        arena.style.position = 'relative';
+        arena.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+    }
+
     function processarAtaque() {
         if (!inBattle) return;
         const inputRaw = document.getElementById('player-input').value.trim(); 
         document.getElementById('player-input').value = "";
         if (inputRaw === "") return;
         
+        // Modo invertido: aceita o próprio Kanji digitado
+        if (modoInvertido) {
+            const acertouInv = inputRaw === enemy.kanji;
+            if (acertouInv) {
+                const arenaRect = document.getElementById('battle-arena').getBoundingClientRect();
+                criarVfxCorte(arenaRect.width/2, arenaRect.height/2 - 20); animarDanoInimigo();
+                enemy.battleHits = (enemy.battleHits || 0) + 1;
+                let danoCausado = Math.floor(enemy.maxHp * 0.4);
+                enemy.hp -= danoCausado; atualizarHpInimigo(); criarTextoDano(`-${danoCausado}`, '#fff', true);
+                player.mastery[enemy.kanji].streak++;
+                if (player.mastery[enemy.kanji].streak > player.mastery[enemy.kanji].maxStreak)
+                    player.mastery[enemy.kanji].maxStreak = player.mastery[enemy.kanji].streak;
+                if (enemy.hp <= 0) { criarTextoDano('SELADO!','var(--success)',true); log('Carta selada!','var(--success)'); setTimeout(()=>vencerBatalha(),500); }
+                else log(`Acertou! ${enemy.kanji} resistiu.`,'var(--gold)');
+            } else {
+                enemy.flawless = false; enemy.battleHits = 0;
+                player.mastery[enemy.kanji].errors++; player.mastery[enemy.kanji].streak = 0;
+                criarTextoDano('ERROU!','#95a5a6',true);
+                mostrarMnemonicoErro();
+                log(`Era: ${enemy.kanji}`,'#e74c3c');
+            }
+            document.getElementById('player-input').focus();
+            return;
+        }
+
         // Passa a resposta do jogador no Filtro Universal
         const inputLimpo = sanearInput(inputRaw); 
         const inputSemAcento = inputLimpo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
@@ -1131,6 +1273,7 @@
             player.mastery[enemy.kanji].streak = 0; 
             document.getElementById('combo-text').style.display = "none"; 
             criarTextoDano("ERROU!", "#95a5a6", true); 
+            mostrarMnemonicoErro(); // ancora a memória no momento do erro
             log(`Selo falhou! Maestria zerada.`, "#e74c3c"); 
         }
         document.getElementById('player-input').focus();
@@ -1143,6 +1286,10 @@
             player.mastery[enemy.kanji].streak++;
             if (player.mastery[enemy.kanji].streak > player.mastery[enemy.kanji].maxStreak) {
                 player.mastery[enemy.kanji].maxStreak = player.mastery[enemy.kanji].streak;
+            }
+            // Domínio real: zera erros acumulados ao atingir streak >= 5
+            if (player.mastery[enemy.kanji].maxStreak >= 5) {
+                player.mastery[enemy.kanji].errors = 0;
             }
         }
 
@@ -1349,7 +1496,7 @@
         };
         
         // Se a história ainda não foi escrita, ele dá uma dica genérica
-        return historias[kanji] || "Observe os traços deste Kanji. Como eles se conectam com o significado? Crie sua própria associação visual para não esquecê-lo na próxima vez!";
+        return historias[kanji] || "?";
     }
 
     function analisarInimigo() { 
@@ -1357,19 +1504,7 @@
         
         document.getElementById('player-input').blur();
         clearInterval(enemyTimer);
-        
-        // Durante tutorial: sem penalidade de HP no inspecionar
-        if (!tutDanoAnulado()) {
-            enemy.flawless = false; 
-            enemy.battleHits = 0; 
-            player.mastery[enemy.kanji].errors++; 
-            player.mastery[enemy.kanji].streak = 0; 
-            document.getElementById('combo-text').style.display = "none"; 
-            player.hp -= enemy.atk; 
-            flashArenaVermelho(); 
-            atualizarHUD(); 
-            if (player.hp <= 0) return gameOver();
-        }
+        // Inspecionar é um ato de estudo — sem custo de HP.
 
         const historia = obterHistoriaKanji(enemy.kanji);
         const vocabFormatado = enemy.vocab.map(v => `• ${v}`).join('<br>');
@@ -1444,6 +1579,48 @@
         } else {
             trocarTela('screen-main');
         }
+    }
+
+    // ─── REVISÃO RÁPIDA ────────────────────────────────────────────
+    function abrirRevisaoRapida() {
+        if (tutAtivo()) return;
+        const obtidas = Object.keys(player.dex);
+        if (obtidas.length === 0) {
+            return mostrarDialogo("Você ainda não capturou nenhum Kanji!<br><br>Vá à <b>Caçada</b> primeiro para começar sua coleção. 🌿", null, true);
+        }
+        // Pega até 10 kanjis com mais erros ou menos vistos (prioriza os difíceis)
+        const pool = DATABASE.filter(k => player.dex[`${k.id}_c`] || player.dex[`${k.id}_r`] || player.dex[`${k.id}_sr`] || player.dex[`${k.id}_ur`] || player.dex[`${k.id}_lr`]);
+        const ordenados = pool.sort((a, b) => {
+            const ma = player.mastery[a.kanji] || { errors: 0, maxStreak: 0 };
+            const mb = player.mastery[b.kanji] || { errors: 0, maxStreak: 0 };
+            return (mb.errors - ma.errors) || (ma.maxStreak - mb.maxStreak);
+        });
+        const fila = ordenados.slice(0, 10).sort(() => Math.random() - 0.5);
+        let idx = 0;
+
+        const mostrarCard = () => {
+            if (idx >= fila.length) {
+                return mostrarDialogo(
+                    "✅ <b style='color:var(--gold)'>Revisão concluída!</b><br><br>" +
+                    `Você revisou <b>${fila.length} Kanjis</b>.<br><br>` +
+                    "Continue estudando para fixar cada um. 🎌", null, true);
+            }
+            const k = fila[idx];
+            const hist = obterHistoriaKanji(k.kanji);
+            const mData = player.mastery[k.kanji] || { maxStreak: 0, errors: 0 };
+            const progresso = `${idx + 1}/${fila.length}`;
+            const texto =
+                `<div style="text-align:center;margin-bottom:8px;color:#888;font-size:12px;">📚 REVISÃO RÁPIDA — ${progresso}</div>` +
+                `<div style="text-align:center;font-size:64px;color:var(--gold);text-shadow:0 0 20px rgba(241,196,15,0.5);font-family:'Noto Sans JP',sans-serif;line-height:1.1;margin-bottom:8px;">${k.kanji}</div>` +
+                `<div style="text-align:center;font-size:18px;font-weight:bold;color:#fff;">${k.sig[0]}</div>` +
+                `<div style="text-align:center;font-size:13px;color:#e67e22;margin-top:3px;">${k.romaji[0]}</div>` +
+                (hist !== '?' ? `<div style="margin-top:10px;font-size:13px;color:#aaa;font-style:italic;border-left:3px solid #3498db;padding-left:8px;line-height:1.4;">"${hist}"</div>` : '') +
+                `<div style="margin-top:10px;font-size:12px;color:#888;">Maestria: ${mData.maxStreak} sequência máxima · ${mData.errors} erros</div>` +
+                `<div style="margin-top:6px;font-size:12px;color:#aaa;">▶ Toque para o próximo</div>`;
+            idx++;
+            mostrarDialogo(texto, mostrarCard, true);
+        };
+        mostrarCard();
     }
 
     function abrirPokedex() {

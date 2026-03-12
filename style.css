@@ -1,4 +1,53 @@
-/* Destaque da sílaba do Kanji no Vocabulário */
+
+        /* --- MÚLTIPLA ESCOLHA --- */
+        #choice-area { margin-top: 10px; }
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 2px; }
+        .choice-btn {
+            background: linear-gradient(135deg, rgba(30,30,50,0.95), rgba(20,20,40,0.95));
+            border: 2px solid #3a3a5e;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 16px 10px;
+            cursor: pointer;
+            transition: transform 0.1s, border-color 0.15s, background 0.15s;
+            text-align: center;
+            line-height: 1.3;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.4);
+            min-height: 70px;
+            display: flex; align-items: center; justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .choice-btn:active { transform: translateY(4px); box-shadow: 0 0px 0 rgba(0,0,0,0.4); }
+        .choice-btn:hover { border-color: var(--primary); }
+        .choice-btn.correct {
+            background: linear-gradient(135deg, #1e8449, #27ae60) !important;
+            border-color: #2ecc71 !important;
+            animation: choicePulse 0.4s ease;
+        }
+        .choice-btn.wrong {
+            background: linear-gradient(135deg, #922b21, #e74c3c) !important;
+            border-color: #e74c3c !important;
+            animation: hitShake 0.3s ease;
+        }
+        .choice-btn.reveal-correct {
+            background: linear-gradient(135deg, #1a5e35, #1e8449) !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+            font-weight: bold !important;
+            box-shadow: 0 0 12px rgba(46,204,113,0.5) !important;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes choicePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
         #modal-details-vocab b { color: var(--gold); font-weight: 900; text-shadow: 0 0 5px rgba(241,196,15,0.4); }
         /* Destaque Rosa para Jukujikun (Palavra Inteira / Exceções) */
         #modal-details-vocab em { color: #ff47a3; font-weight: 900; font-style: normal; text-shadow: 0 0 5px rgba(255,71,163,0.5); }
@@ -298,7 +347,7 @@
             box-shadow: inset 0 0 60px rgba(46, 204, 113, 0.3); 
         }
 
-        .enemy-sprite { font-size: 90px; background: radial-gradient(circle, rgba(30,30,30,0.9), rgba(0,0,0,0.9)); width: 150px; height: 150px; line-height: 150px; border-radius: 50%; margin: 25px auto 10px; border: 4px solid #fff; transition: transform 0.2s, box-shadow 0.3s; font-family: 'Noto Sans JP', sans-serif; position: relative; z-index: 10; animation: breathe 3s infinite ease-in-out; box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
+        .enemy-sprite { font-size: 90px; background: radial-gradient(circle, rgba(30,30,30,0.9), rgba(0,0,0,0.9)); width: 150px; height: 150px; line-height: 1.1; display: flex; align-items: center; justify-content: center; text-align: center; border-radius: 50%; margin: 25px auto 10px; border: 4px solid #fff; transition: transform 0.2s, box-shadow 0.3s; font-family: 'Noto Sans JP', sans-serif; position: relative; z-index: 10; animation: breathe 3s infinite ease-in-out; box-shadow: 0 15px 25px rgba(0,0,0,0.6); padding: 8px; box-sizing: border-box; word-break: break-word; }
         
         @keyframes breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.03); } }
         .hit-shake { animation: hitShake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
@@ -368,7 +417,7 @@
             .card-front > div:first-child { font-size: 45px !important; }
             .card-front > div:last-child { font-size: 11px !important; }
             
-            .enemy-sprite { width: 120px; height: 120px; line-height: 120px; font-size: 70px; margin: 20px auto 10px; }
+            .enemy-sprite { width: 120px; height: 120px; line-height: 1.1; font-size: 70px; margin: 20px auto 10px; }
             .battle-arena { padding: 15px 10px; min-height: 180px;}
             
             .player-input-area { flex-direction: column; width: 100%; }
@@ -389,4 +438,62 @@
             /* Controles Pokedex no Celular */
             .pokedex-controls { flex-direction: column; }
             .pokedex-controls input, .pokedex-controls select { width: 100%; box-sizing: border-box; }
+        }
+        /* --- TUTORIAL MODAL --- */
+        #modal-tutorial.active {
+            display: flex !important;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+        #modal-tutorial .modal-content { display: none; } /* não usa modal-content padrão */
+
+        /* --- DICA FLUTUANTE CONTEXTUAL --- */
+        #tut-dica {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(10,10,30,0.97), rgba(20,20,50,0.97));
+            border: 2px solid var(--primary);
+            border-radius: 14px;
+            padding: 12px 18px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.4;
+            max-width: 88vw;
+            width: 340px;
+            text-align: center;
+            z-index: 9500;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8), 0 0 20px rgba(52,152,219,0.3);
+            pointer-events: none;
+            animation: none;
+        }
+        #tut-dica.tut-dica-ativo {
+            display: block;
+            animation: tutDicaEntrar 0.35s ease forwards;
+        }
+        #tut-dica.tut-dica-saindo {
+            animation: tutDicaSair 0.4s ease forwards;
+        }
+        @keyframes tutDicaEntrar {
+            from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes tutDicaSair {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to   { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* === TUTORIAL BLOCKER & SPOTLIGHT === */
+        .tut-target-active {
+            position: relative !important;
+            z-index: 9400 !important;
+            box-shadow: 0 0 0 4px #f1c40f, 0 0 30px rgba(241,196,15,0.6) !important;
+            border-radius: 12px;
+        }
+        @keyframes tutArrowBounce {
+            from { transform: translateY(0px); }
+            to   { transform: translateY(-10px); }
         }
