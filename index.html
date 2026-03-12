@@ -1992,19 +1992,12 @@
             // Aguarda o scroll terminar antes de posicionar a seta
             setTimeout(() => {
                 const r = el.getBoundingClientRect();
+                // Sempre posiciona acima do elemento com 👇 apontando para ele
+                // Usa o centro horizontal e o topo do elemento como referência
+                arrow.innerText = '👇';
                 arrow.style.display = 'block';
                 arrow.style.left = (r.left + r.width / 2 - 14) + 'px';
-                // Posiciona abaixo do elemento — 👇 aponta para o alvo sem cobri-lo
-                const abaixo = r.bottom + 6;
-                const maxTop = window.innerHeight - 50;
-                // Se não couber abaixo (elemento perto do fundo), coloca acima com 👆
-                if (abaixo > maxTop) {
-                    arrow.innerText = '👆';
-                    arrow.style.top = Math.max(4, r.top - 42) + 'px';
-                } else {
-                    arrow.innerText = '👇';
-                    arrow.style.top = abaixo + 'px';
-                }
+                arrow.style.top  = Math.max(4, r.top - 38) + 'px';
             }, 400);
         }
     }
