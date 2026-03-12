@@ -166,7 +166,7 @@
         </div>
         
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
-            <button onclick="analisarInimigo()" style="background:#3498db; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">🔍 Ver Ficha</button>
+            <button onclick="analisarInimigo()" style="background:#3498db; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">🔍 Inspecionar</button>
             <button onclick="usarPocao()" style="background:var(--success); flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Usar 🧪</button>
             <button onclick="fugir()" id="btn-fugir" style="background:#555; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Fugir 🏃</button>
         </div>
@@ -405,25 +405,29 @@
         const hoje = new Date().toDateString();
         const ultimoDia = localStorage.getItem('kmLastDay');
         let streak = parseInt(localStorage.getItem('kmStreak') || '0');
-        const kanjiDoDiaIdx = parseInt(localStorage.getItem('kmKanjiDoDia') || '0');
+        let idx = parseInt(localStorage.getItem('kmKanjiDoDia') || '0');
+
+        // Garante que idx nunca é NaN (saves antigos ou primeiro acesso)
+        if (isNaN(idx) || idx < 0) idx = 0;
+        if (isNaN(streak) || streak < 0) streak = 0;
 
         if (ultimoDia !== hoje) {
             const ontem = new Date(); ontem.setDate(ontem.getDate() - 1);
             if (ultimoDia === ontem.toDateString()) {
-                streak++;
-            } else if (ultimoDia !== null) {
-                streak = 1; // quebrou a sequência
+                streak++;                          // dia consecutivo
             } else {
-                streak = 1; // primeiro dia
+                streak = 1;                        // primeiro dia ou sequência quebrada
+            }
+            // Avança o kanji — no primeiro acesso fica no índice 0
+            if (ultimoDia !== null) {
+                idx = (idx + 1) % DATABASE.length;
             }
             localStorage.setItem('kmLastDay', hoje);
             localStorage.setItem('kmStreak', streak);
-            // Novo Kanji do Dia
-            const novoIdx = (kanjiDoDiaIdx + 1) % DATABASE.length;
-            localStorage.setItem('kmKanjiDoDia', novoIdx);
+            localStorage.setItem('kmKanjiDoDia', idx);
         }
 
-        renderizarKanjiDoDia(kanjiDoDiaIdx, streak);
+        renderizarKanjiDoDia(idx, streak);
     }
 
     function renderizarKanjiDoDia(idx, streak) {
@@ -1890,16 +1894,7 @@
         if (btnInstall) {
             btnInstall.style.display = 'flex';
             
-            // CONVERSA RPG: Se for a primeira vez que o celular libera o app, avisa o jogador!
-            if (!localStorage.getItem('viuAvisoApp')) {
-                setTimeout(() => {
-                    // Nome corrigido para 'mostrarDialogo'
-                    mostrarDialogo("<span style='color:var(--gold)'>📱 MENSAGEM DO SISTEMA 📱</span><br><br>Sabia que KanjiMon é um aplicativo? Procure o botão Laranja no Acampamento para instalar na tela inicial do seu aparelho!", () => {
-                        // Salva na memória para não repetir a conversa
-                        localStorage.setItem('viuAvisoApp', 'true');
-                    });
-                }, 1500); 
-            }
+            // Aviso de instalação removido — interferia com o tutorial
         }
     });
 
@@ -1991,12 +1986,16 @@
         el.style.zIndex   = '9400';
         el.classList.add('tut-target-active');
 
-        // Posiciona a seta acima do elemento alvo
+        // Scroll suave para o alvo ficar visível, depois posiciona a seta
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         if (arrow) {
-            const r = el.getBoundingClientRect();
-            arrow.style.display = 'block';
-            arrow.style.left = (r.left + r.width / 2 - 14) + 'px';
-            arrow.style.top  = Math.max(0, r.top - 40) + 'px';
+            // Aguarda o scroll terminar antes de posicionar a seta
+            setTimeout(() => {
+                const r = el.getBoundingClientRect();
+                arrow.style.display = 'block';
+                arrow.style.left = (r.left + r.width / 2 - 14) + 'px';
+                arrow.style.top  = Math.max(4, r.top - 44) + 'px';
+            }, 400);
         }
     }
 
@@ -2180,6 +2179,11 @@
 
         // ---- 13. AGUARDA BOOSTER ----
         case TUT_STEPS.AGUARDA_BOOSTER:
+            // Garante que o jogador tem ouro suficiente (saves antigos podem ter menos)
+            if (player.gold < 150) {
+                player.gold = 150;
+                salvarJogo();
+            }
             tutBloquear('.btn-booster');
             mostrarDica("👆 Toque em <b>✨ Abrir Booster</b>!");
             break;
