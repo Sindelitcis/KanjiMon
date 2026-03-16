@@ -7,7 +7,31 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
+    
     </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module">
+    //login
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAXVCIotpTqUeUGvvCnh3LnaYHwKwfSp-E",
+        authDomain: "kanjimon-fa99a.firebaseapp.com",
+        projectId: "kanjimon-fa99a",
+        storageBucket: "kanjimon-fa99a.firebasestorage.app",
+        messagingSenderId: "1023245824251",
+        appId: "1:1023245824251:web:4ffd912f8553af5f4c405e",
+        measurementId: "G-8VZED3ZJYQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.db = db;
+    window.dbFuncs = { doc, setDoc, getDoc };
+    //login
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0a12">
@@ -16,6 +40,22 @@
     <title>KanjiMon Ultimate</title>
 </head>
 <body>
+<!-- LOGIN -->
+<div id="login-overlay" style="position:fixed; inset:0; z-index:20000; background:#0a0a12; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+    <img src="assets/KanjiMon.webp" alt="Logo" style="width:200px; margin-bottom:30px;">
+    <h2 style="color:var(--gold); margin-bottom:10px;">Sincronize sua Jornada</h2>
+    <p style="color:#aaa; font-size:14px; margin-bottom:30px; max-width:300px;">Para salvar seu progresso na nuvem, entre com sua conta Google.</p>
+    
+    <div id="g_id_onload"
+         data-client_id="475059334278-fbea47gadb07fjikn00o11g8quua529g.apps.googleusercontent.com"
+         data-callback="onGoogleSignIn"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue" data-text="signin_with" data-size="large"></div>
+    
+    <button onclick="pularLogin()" style="margin-top:20px; background:transparent; border:none; color:#555; text-decoration:underline; font-size:12px; cursor:pointer;">Continuar sem login</button>
+</div>
+<!-- LOGIN FIM -->
 
 <div class="booster-overlay" id="booster-overlay">
     <div class="energy"></div>
@@ -452,27 +492,31 @@
         `;
     }
 
-    function init() {
-        window.scrollTo(0, 0); // Garante que o F5 sempre abra no topo
+function init() {
+        window.scrollTo(0, 0); 
         
         const saved = localStorage.getItem('kanjimonUltimate');
         if (saved) { 
             player = JSON.parse(saved); 
             if (!player.mastery) player.mastery = {}; 
-        }
-
-        // --- CHECAGEM DE BOAS-VINDAS (SCROLL) ---
-        const indicator = document.getElementById('scroll-indicator');
-        if (indicator && player.level < 3) {
-            indicator.classList.add('visible');
+            if (player.tutStep !== undefined) {
+                tutStep = player.tutStep;
+            }
         }
 
         atualizarHUD();
         verificarStreakDiaria();
 
-        // Inicia tutorial se não concluído
-        if (tutAtivo()) {
-            // Helper que mostra o diálogo de interrupção com botão "Pular"
+        const indicator = document.getElementById('scroll-indicator');
+        if (indicator && player.level < 3) {
+            indicator.classList.add('visible');
+        }
+
+        const loginOverlay = document.getElementById('login-overlay');
+        const loginAtivo = loginOverlay && loginOverlay.style.display !== 'none';
+
+        if (tutAtivo() && !loginAtivo) {
+            
             const mostrarDialogoInterrupcao = (mensagem, callbackReiniciar) => {
                 tutBloquear(null);
                 setTimeout(() => {
@@ -487,7 +531,9 @@
                         btn.onclick = (e) => {
                             e.stopPropagation();
                             document.getElementById('rpg-dialog').classList.remove('active');
-                            tutAvancar(TUT_STEPS.DONE);
+                            tutStep = TUT_STEPS.DONE;
+                            player.tutStep = 0;
+                            tutSalvar();
                         };
                         box.appendChild(btn);
                     };
@@ -495,12 +541,8 @@
                 }, 600);
             };
 
-            // CASO 1 — saiu no meio de uma batalha (steps 4–11)
             const stepEmBatalha = tutStep >= 4 && tutStep <= 11;
-
-            // CASO 2 — saiu durante o booster sem recolher (steps 14–15)
-            const stepEmBooster = tutStep === TUT_STEPS.GACHA_REVELANDO ||
-                                  tutStep === TUT_STEPS.AGUARDA_RECOLHER;
+            const stepEmBooster = tutStep === TUT_STEPS.GACHA_REVELANDO || tutStep === TUT_STEPS.AGUARDA_RECOLHER;
 
             if (stepEmBatalha) {
                 mostrarDialogoInterrupcao(
@@ -509,32 +551,37 @@
                     "<b style='color:var(--success)'>▶ Toque aqui</b> para <b>reiniciar o tutorial</b> do começo.",
                     () => TUT.reset()
                 );
-
             } else if (stepEmBooster) {
-                // O booster já foi aberto mas as cartas não foram coletadas.
-                // Recompensa o jogador com um booster grátis e relança a tela.
                 mostrarDialogoInterrupcao(
                     "🃏 <b style='color:var(--gold)'>Você saiu antes de recolher suas cartas!</b><br><br>" +
                     "Não se preocupe — o Mestre Kanji guardou um pacote reserva para você. 😄<br><br>" +
                     "<b style='color:var(--success)'>▶ Toque aqui</b> para abrir seu Booster e continuar de onde parou!",
                     () => {
-                        // Devolve o ouro gasto (150) e relança o booster
                         player.gold += 150;
                         salvarJogo();
                         tutStep = TUT_STEPS.AGUARDA_BOOSTER;
                         tutSalvar();
-                        tutLiberar();
                         tutAvancar(TUT_STEPS.AGUARDA_BOOSTER);
                     }
                 );
-
             } else {
                 tutExecutar();
             }
         }
     }
     
-    function salvarJogo() { localStorage.setItem('kanjimonUltimate', JSON.stringify(player)); atualizarHUD(); }
+    async function salvarJogo() {
+        localStorage.setItem('kanjimonUltimate', JSON.stringify(player)); //vai continuar salvando local
+        atualizarHUD();
+        if (player.googleId) {
+            try {
+                const docRef = window.dbFuncs.doc(window.db, "usuarios", player.googleId);
+                await window.dbFuncs.setDoc(docRef, player);
+            } catch (e) {
+                console.warn("Falha na sincronização:");
+            }
+        } //se estiver logado, salva no firestore
+    }
     function log(msg, color = "#ccc") { const box = document.getElementById('battle-log'); box.innerHTML = `<div style="color:${color}; margin-bottom:4px;">> ${msg}</div>` + box.innerHTML; }
     function trocarTela(id) {
         // During tutorial, only allow screen changes that are part of the script.
@@ -1951,9 +1998,12 @@
     };
 
     let tutStep = parseInt(localStorage.getItem('tutStep') || '1');
-    function tutSalvar() { localStorage.setItem('tutStep', String(tutStep)); }
+    function tutSalvar() { 
+        player.tutStep = tutStep;
+        localStorage.setItem('tutStep', String(tutStep)); 
+        salvarJogo(); 
+    }
     function tutAtivo()  { return tutStep > TUT_STEPS.DONE; }
-    // Dano anulado da entrada na caçada até o jogador fugir
     function tutDanoAnulado() {
         return tutStep >= TUT_STEPS.CACADA_INTRO && tutStep <= TUT_STEPS.AGUARDA_FUGA;
     }
@@ -2356,17 +2406,19 @@
                     "Sua missão agora é <b>capturar todos os Kanjis</b>, dominar cada um deles e se tornar o maior Mestre Kanji da região.<br><br>" +
                     "<span style='color:#9b59b6;font-size:13px;'>São <b>" + DATABASE.length + " Kanjis</b> esperando por você.<br>Capture todos. Cuide de todos. Boa jornada! 💪🎌</span>",
                     () => {
-                        tutAvancar(TUT_STEPS.DONE);
+                        tutStep = TUT_STEPS.DONE; 
+                        player.tutStep = 0;      
+                        tutSalvar();              
                         trocarTela('screen-main');
-                        vibrar([100,50,100,50,200]);
-                        const cx = window.innerWidth/2, cy = window.innerHeight/2;
+                        vibrar([100, 50, 100, 50, 200]);
+                        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
                         for (let i = 0; i < 40; i++) {
                             const p = document.createElement('div');
                             p.className = 'particle';
-                            p.style.background = ['var(--gold)','#ff00ff','#00ffff','var(--success)','#e74c3c','#9b59b6'][i%6];
+                            p.style.background = ['var(--gold)', '#ff00ff', '#00ffff', 'var(--success)', '#e74c3c', '#9b59b6'][i % 6];
                             p.style.left = cx + 'px'; p.style.top = cy + 'px';
-                            p.style.setProperty('--x', (Math.random()*800-400) + 'px');
-                            p.style.setProperty('--y', (Math.random()*800-400) + 'px');
+                            p.style.setProperty('--x', (Math.random() * 800 - 400) + 'px');
+                            p.style.setProperty('--y', (Math.random() * 800 - 400) + 'px');
                             document.body.appendChild(p);
                             setTimeout(() => p.remove(), 1000);
                         }
@@ -2381,6 +2433,71 @@
             break;
         }
     }
+
+    // --- LOGIN ---
+
+    async function onGoogleSignIn(response) {
+        const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        const uid = payload.sub; 
+
+        try {
+            const docRef = window.dbFuncs.doc(window.db, "usuarios", uid);
+            const docSnap = await window.dbFuncs.getDoc(docRef);
+
+            if (docSnap.exists()) {
+                player = docSnap.data();
+                tutStep = (player.tutStep !== undefined) ? player.tutStep : 0; 
+                console.log("Progresso e tutorial recuperados!");
+            } else {
+                player.googleId = uid;
+                player.userName = payload.name;
+                player.tutStep = tutStep; 
+                await window.dbFuncs.setDoc(docRef, player);
+            }
+
+            localStorage.setItem('kanjimonUltimate', JSON.stringify(player));
+            localStorage.setItem('km_logged', 'true');
+            
+            atualizarHUD();
+            entrarNoJogo();
+            
+            if (tutStep === 0) {
+                tutLiberar();
+            } else {
+                tutExecutar(); 
+            }
+
+        } catch (e) {
+            console.error("Erro Firebase:", e);
+            entrarNoJogo();
+        }
+    }
+
+    function pularLogin() {
+            entrarNoJogo();
+    }
+
+    function entrarNoJogo() {
+        const overlay = document.getElementById('login-overlay');
+        // Animação de fade-out
+        overlay.style.transition = "opacity 0.5s ease";
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+            overlay.style.display = "none";
+            // Só inicia o tutorial ou o jogo após o login sair
+            if (typeof init === "function") {
+                // Se o jogo já deu init, não precisa chamar de novo, 
+                // mas você pode disparar sons de abertura aqui.
+            }
+        }, 500);
+    }
+
+    // Verifica se já estava logado ao carregar a página
+    window.onload = function() {
+        if(localStorage.getItem('km_logged') === 'true') {
+            document.getElementById('login-overlay').style.display = 'none';
+        }
+    };
 
     // ---- LEGADO: modal de passos (apenas para o botão "Como Jogar") ----
     let tutorialPasso = 0;
