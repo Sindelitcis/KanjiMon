@@ -2314,17 +2314,12 @@ function init() {
             tutLiberar();
             esconderDica();
             setTimeout(() => {
-                const isMobile = window.innerWidth <= 600;
-                const scrollHint = isMobile
-                    ? "<br><span style='color:var(--gold);font-size:13px;'>📱 No celular, <b>role a tela para baixo</b> para ver suas cartas!</span>"
-                    : "";
                 mostrarDialogo(
                     "<b style='color:#3498db'>📖 Sua KanjiDex!</b><br><br>" +
                     "Aqui vivem todos os Kanjis que você capturou.<br>" +
                     "Cada carta tem uma raridade e um nível de <b style='color:var(--gold)'>Maestria</b> — quanto mais você acerta um Kanji em sequência, mais Mestre você se torna nele.<br><br>" +
                     "Primeiro, filtre para ver só as cartas que você já tem:<br>" +
-                    "<span style='color:#aaa;font-size:13px;'>Use o menu suspenso e selecione <b>✅ Só Obtidas</b>.</span>" +
-                    scrollHint,
+                    "<span style='color:#aaa;font-size:13px;'>Use o menu suspenso e selecione <b>✅ Só Obtidas</b>.</span>",
                     () => tutAvancar(TUT_STEPS.AGUARDA_FILTRO)
                 );
             }, 500);
@@ -2332,25 +2327,15 @@ function init() {
 
         // ---- 19. AGUARDA FILTRO ----
         case TUT_STEPS.AGUARDA_FILTRO: {
-            const isMobile = window.innerWidth <= 600;
             tutBloquear('#dex-filter');
-            if (isMobile) {
-                mostrarDica("📱 Role para baixo e selecione <b>✅ Só Obtidas</b> no filtro!");
-            } else {
-                mostrarDica("👇 Selecione <b>✅ Só Obtidas</b> no filtro!");
-            }
+            mostrarDica("👇 Selecione <b>✅ Só Obtidas</b> no filtro!");
             break;
         }
 
         // ---- 20. AGUARDA TOQUE NA CARTA ----
         case TUT_STEPS.AGUARDA_CARTA: {
             tutBloquear('#pokedex-container');
-            const isMobile2 = window.innerWidth <= 600;
-            if (isMobile2) {
-                mostrarDica("📱 Role para baixo e toque em uma das suas <b>cartas</b>!");
-            } else {
-                mostrarDica("👇 Toque em uma das suas <b>cartas</b> para abrir!");
-            }
+            mostrarDica("👇 Toque em uma das suas <b>cartas</b> para abrir!");
             break;
         }
 
@@ -2433,6 +2418,7 @@ function init() {
                     "Sua missão agora é <b>capturar todos os Kanjis</b>, dominar cada um deles e se tornar o maior Mestre Kanji da região.<br><br>" +
                     "<span style='color:#9b59b6;font-size:13px;'>São <b>" + DATABASE.length + " Kanjis</b> esperando por você.<br>Capture todos. Cuide de todos. Boa jornada! 💪🎌</span>",
                     () => {
+                        tutLiberar();
                         tutStep = TUT_STEPS.DONE; 
                         player.tutStep = 0;      
                         tutSalvar();              
