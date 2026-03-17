@@ -495,6 +495,13 @@
 function init() {
         window.scrollTo(0, 0); 
         
+        // --- CORREÇÃO DA CONDIÇÃO DE CORRIDA ---
+        // Resolve o estado visual do login IMEDIATAMENTE, antes de avaliar o tutorial
+        const loginOverlay = document.getElementById('login-overlay');
+        if (localStorage.getItem('km_logged') === 'true') {
+            if (loginOverlay) loginOverlay.style.display = 'none';
+        }
+        
         const saved = localStorage.getItem('kanjimonUltimate');
         if (saved) { 
             player = JSON.parse(saved); 
@@ -512,7 +519,7 @@ function init() {
             indicator.classList.add('visible');
         }
 
-        const loginOverlay = document.getElementById('login-overlay');
+        // Agora o loginAtivo vai refletir a realidade com 100% de precisão
         const loginAtivo = loginOverlay && loginOverlay.style.display !== 'none';
 
         if (tutAtivo() && !loginAtivo) {
@@ -2506,13 +2513,6 @@ function init() {
             
         }, 500);
     }
-
-    // Verifica se já estava logado ao carregar a página
-    window.onload = function() {
-        if(localStorage.getItem('km_logged') === 'true') {
-            document.getElementById('login-overlay').style.display = 'none';
-        }
-    };
 
     // ---- LEGADO: modal de passos (apenas para o botão "Como Jogar") ----
     let tutorialPasso = 0;
