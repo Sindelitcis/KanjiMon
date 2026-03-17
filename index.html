@@ -397,6 +397,7 @@
     let player = { hp: 100, maxHp: 100, level: 1, xp: 0, gold: 150, potions: 3, dex: {}, mastery: {} };
     let inBattle = false, isGymMode = false, gymFightsLeft = 0, enemy = null, enemyTimer = null;
     let modoInvertido = false; // quando true: mostra significado, resposta é o Kanji
+    let cartasPendentesGacha = [];
 
     // --- MOTOR NINTENDO (Diálogo e Vibração) ---
     let dialogCallback = null, isTyping = false, fullText = "", typeInterval;
@@ -558,6 +559,16 @@ function init() {
 
             const stepEmBatalha = tutStep >= 4 && tutStep <= 11;
             const stepEmBooster = tutStep === TUT_STEPS.GACHA_REVELANDO || tutStep === TUT_STEPS.AGUARDA_RECOLHER;
+
+            // --- CORREÇÃO: FORÇAR TELA CORRETA NO F5 DURANTE O TUTORIAL ---
+            if (tutStep >= TUT_STEPS.AGUARDA_KANJIDEX && tutStep <= TUT_STEPS.CONCLUSAO_3) {
+                trocarTela('screen-pokedex');
+            } else if (tutStep >= TUT_STEPS.CACADA_INTRO && tutStep <= TUT_STEPS.AGUARDA_FUGA) {
+                trocarTela('screen-battle');
+            } else if (tutStep === TUT_STEPS.GACHA_REVELANDO || tutStep === TUT_STEPS.AGUARDA_RECOLHER) {
+                trocarTela('screen-gacha');
+            }
+            // --------------------------------------------------------------
 
             if (stepEmBatalha) {
                 mostrarDialogoInterrupcao(
@@ -745,12 +756,24 @@ function init() {
         const container = document.getElementById('gacha-cards-container'); container.innerHTML = ""; document.getElementById('gacha-btn-voltar').style.display = 'none';
         
         let puxos = [];
+        cartasPendentesGacha = [];
+
         for(let i=0; i<3; i++) {
             const baseK = DATABASE[Math.floor(Math.random() * DATABASE.length)]; let rand = Math.random() * 100, sum = 0, rKey = 'c';
             for (const [key, rData] of Object.entries(RARITIES)) { sum += rData.rate; if (rand <= sum) { rKey = key; break; } }
-            puxos.push({ ...baseK, rKey, rData: RARITIES[rKey] }); player.dex[`${baseK.id}_${rKey}`] = (player.dex[`${baseK.id}_${rKey}`] || 0) + 1;
+            puxos.push({ ...baseK, rKey, rData: RARITIES[rKey] }); 
+            
+            if (tutAtivo()) {
+                // Se está no tutorial, guarda na pendência para evitar o exploit do F5 e reembolso
+                cartasPendentesGacha.push({ id: baseK.id, rKey: rKey });
+            } else {
+                // Se é veterano, a carta já vai direto pra Dex para evitar perda em queda de energia/F5
+                player.dex[`${baseK.id}_${rKey}`] = (player.dex[`${baseK.id}_${rKey}`] || 0) + 1;
+            }
         }
-        salvarJogo();
+        
+        // Salva imediatamente o ouro gasto (e as cartas, se for veterano)
+        if (!tutAtivo()) salvarJogo();
         
         puxos.forEach((puxo, index) => {
             const div = document.createElement('div'); 
@@ -1644,6 +1667,16 @@ function init() {
     function comprarPocao() { if (tutAtivo()) return; if (player.gold >= 30) { player.gold -= 30; player.potions++; salvarJogo(); } }
 
     function gachaVoltar() {
+        // --- ENTREGA AS CARTAS SOMENTE QUANDO CLICAR EM RECOLHER ---
+        if (cartasPendentesGacha.length > 0) {
+            cartasPendentesGacha.forEach(carta => {
+                player.dex[`${carta.id}_${carta.rKey}`] = (player.dex[`${carta.id}_${carta.rKey}`] || 0) + 1;
+            });
+            cartasPendentesGacha = [];
+            salvarJogo(); // Salva as cartas na conta!
+        }
+        // -----------------------------------------------------------
+
         // Durante o tutorial avança o step antes de trocar de tela
         if (tutStep === TUT_STEPS.AGUARDA_RECOLHER) {
             esconderDica();
