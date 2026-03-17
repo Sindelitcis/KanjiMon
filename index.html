@@ -2036,19 +2036,46 @@ function init() {
         el.style.zIndex   = '9400';
         el.classList.add('tut-target-active');
 
-        // Scroll suave para o alvo ficar visível, depois posiciona a seta
+        // Dispara o scroll suave
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
         if (arrow) {
-            // Aguarda o scroll terminar antes de posicionar a seta
-            setTimeout(() => {
+            arrow.style.display = 'none'; // Garante que o dedo fique invisível enquanto rola
+            
+            let scrollTimeout;
+            
+            // Função que calcula a posição exata e a direção
+            const posicionarDedo = () => {
+                window.removeEventListener('scroll', monitorarScroll);
+                if (!_tutAlvo) return; // Aborta se o tutorial já avançou
+                
                 const r = el.getBoundingClientRect();
-                // Sempre posiciona acima do elemento com 👇 apontando para ele
-                // Usa o centro horizontal e o topo do elemento como referência
-                arrow.innerText = '👇';
-                arrow.style.display = 'block';
+                
+                // Se o elemento estiver muito perto do topo da tela, o dedo aponta para cima a partir de baixo
+                if (r.top < 60) {
+                    arrow.innerText = '👆';
+                    arrow.style.top = (r.bottom + 10) + 'px';
+                } else {
+                    // Padrão: dedo em cima apontando para baixo
+                    arrow.innerText = '👇';
+                    arrow.style.top = (r.top - 40) + 'px';
+                }
+                
                 arrow.style.left = (r.left + r.width / 2 - 14) + 'px';
-                arrow.style.top  = Math.max(4, r.top - 38) + 'px';
-            }, 400);
+                arrow.style.display = 'block';
+            };
+
+            // Monitora o fim do scroll
+            const monitorarScroll = () => {
+                clearTimeout(scrollTimeout);
+                // Quando a tela ficar 150ms sem se mover, entendemos que o scroll acabou
+                scrollTimeout = setTimeout(posicionarDedo, 150);
+            };
+
+            window.addEventListener('scroll', monitorarScroll);
+            
+            // Fallback de segurança: se a tela já estiver no lugar e não rolar, chama direto
+            scrollTimeout = setTimeout(posicionarDedo, 500);
         }
     }
 
