@@ -2472,14 +2472,8 @@ function init() {
             localStorage.setItem('km_logged', 'true');
             
             atualizarHUD();
-            entrarNoJogo();
+            entrarNoJogo(); // Apenas inicia a transição visual
             
-            if (tutStep === 0) {
-                tutLiberar();
-            } else {
-                tutExecutar(); 
-            }
-
         } catch (e) {
             console.error("Erro Firebase:", e);
             entrarNoJogo();
@@ -2487,21 +2481,29 @@ function init() {
     }
 
     function pularLogin() {
-            entrarNoJogo();
+        entrarNoJogo();
     }
 
     function entrarNoJogo() {
         const overlay = document.getElementById('login-overlay');
+        
         // Animação de fade-out
         overlay.style.transition = "opacity 0.5s ease";
         overlay.style.opacity = "0";
+        
         setTimeout(() => {
             overlay.style.display = "none";
-            // Só inicia o tutorial ou o jogo após o login sair
+            
+            // O jogo reavalia exatamente onde o jogador parou de forma segura
             if (typeof init === "function") {
-                // Se o jogo já deu init, não precisa chamar de novo, 
-                // mas você pode disparar sons de abertura aqui.
+                init(); 
             }
+            
+            // Se o tutorial já estiver concluído (Passo 0), garante que a tela está destravada
+            if (!tutAtivo()) {
+                tutLiberar();
+            }
+            
         }, 500);
     }
 
