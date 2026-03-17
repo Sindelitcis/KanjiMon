@@ -315,6 +315,13 @@
     </div>
 </div>
 
+<div id="modal-revisao" class="modal" style="z-index: 10007;">
+    <div class="menu-panel" style="max-width: 420px; width: 90%; text-align: center; background: rgba(13,13,26,0.98); border: 1px solid var(--gold); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 0 15px rgba(241,196,15,0.15); cursor: pointer;">
+        <div id="revisao-content"></div>
+        <div style="position: absolute; bottom: 15px; right: 15px; color: var(--gold); font-size: 16px;">▼</div>
+    </div>
+</div>
+
 <script>
     // ==========================================
     // CONFIGURAÇÃO DE IMAGENS REMOTAS
@@ -537,6 +544,7 @@ function init() {
                         btn.style.cssText = "margin-top:12px;width:100%;background:rgba(255,255,255,0.05);border:1px solid #555;border-radius:8px;color:#888;font-size:12px;padding:8px;cursor:pointer;";
                         btn.onclick = (e) => {
                             e.stopPropagation();
+                            btn.remove(); // 3. O botão se auto-deleta ao ser clicado
                             document.getElementById('rpg-dialog').classList.remove('active');
                             tutStep = TUT_STEPS.DONE;
                             player.tutStep = 0;
@@ -556,7 +564,11 @@ function init() {
                     "⚠️ <b style='color:var(--gold)'>Parece que você saiu no meio do tutorial!</b><br><br>" +
                     "O Mestre Kanji perdeu o fio da meada... 😅<br><br>" +
                     "<b style='color:var(--success)'>▶ Toque aqui</b> para <b>reiniciar o tutorial</b> do começo.",
-                    () => TUT.reset()
+                    () => {
+                        const btn = document.getElementById('tut-skip-btn');
+                        if (btn) btn.remove(); // 1. Deleta se o jogador escolher reiniciar
+                        TUT.reset();
+                    }
                 );
             } else if (stepEmBooster) {
                 mostrarDialogoInterrupcao(
@@ -564,6 +576,9 @@ function init() {
                     "Não se preocupe — o Mestre Kanji guardou um pacote reserva para você. 😄<br><br>" +
                     "<b style='color:var(--success)'>▶ Toque aqui</b> para abrir seu Booster e continuar de onde parou!",
                     () => {
+                        const btn = document.getElementById('tut-skip-btn');
+                        if (btn) btn.remove(); // 2. Deleta se o jogador escolher continuar o booster
+                        
                         player.gold += 150;
                         salvarJogo();
                         tutStep = TUT_STEPS.AGUARDA_BOOSTER;
@@ -1646,7 +1661,7 @@ function init() {
         if (obtidas.length === 0) {
             return mostrarDialogo("Você ainda não capturou nenhum Kanji!<br><br>Vá à <b>Caçada</b> primeiro para começar sua coleção. 🌿", null, true);
         }
-        // Pega até 10 kanjis com mais erros ou menos vistos (prioriza os difíceis)
+        
         const pool = DATABASE.filter(k => player.dex[`${k.id}_c`] || player.dex[`${k.id}_r`] || player.dex[`${k.id}_sr`] || player.dex[`${k.id}_ur`] || player.dex[`${k.id}_lr`]);
         const ordenados = pool.sort((a, b) => {
             const ma = player.mastery[a.kanji] || { errors: 0, maxStreak: 0 };
@@ -1656,8 +1671,19 @@ function init() {
         const fila = ordenados.slice(0, 10).sort(() => Math.random() - 0.5);
         let idx = 0;
 
+        const modal = document.getElementById('modal-revisao');
+        const content = document.getElementById('revisao-content');
+        modal.classList.add('active');
+
+        // O modal inteiro avança o texto ao ser clicado, igual à caixa de diálogo principal
+        modal.onclick = () => {
+            mostrarCard();
+        };
+
         const mostrarCard = () => {
             if (idx >= fila.length) {
+                modal.onclick = null; // Limpa o evento de clique ao finalizar
+                modal.classList.remove('active');
                 return mostrarDialogo(
                     "✅ <b style='color:var(--gold)'>Revisão concluída!</b><br><br>" +
                     `Você revisou <b>${fila.length} Kanjis</b>.<br><br>` +
@@ -1667,17 +1693,18 @@ function init() {
             const hist = obterHistoriaKanji(k.kanji);
             const mData = player.mastery[k.kanji] || { maxStreak: 0, errors: 0 };
             const progresso = `${idx + 1}/${fila.length}`;
-            const texto =
-                `<div style="text-align:center;margin-bottom:8px;color:#888;font-size:12px;">📚 REVISÃO RÁPIDA — ${progresso}</div>` +
-                `<div style="text-align:center;font-size:64px;color:var(--gold);text-shadow:0 0 20px rgba(241,196,15,0.5);font-family:'Noto Sans JP',sans-serif;line-height:1.1;margin-bottom:8px;">${k.kanji}</div>` +
-                `<div style="text-align:center;font-size:18px;font-weight:bold;color:#fff;">${k.sig[0]}</div>` +
-                `<div style="text-align:center;font-size:13px;color:#e67e22;margin-top:3px;">${k.romaji[0]}</div>` +
-                (hist !== '?' ? `<div style="margin-top:10px;font-size:13px;color:#aaa;font-style:italic;border-left:3px solid #3498db;padding-left:8px;line-height:1.4;">"${hist}"</div>` : '') +
-                `<div style="margin-top:10px;font-size:12px;color:#888;">Maestria: ${mData.maxStreak} sequência máxima · ${mData.errors} erros</div>` +
-                `<div style="margin-top:6px;font-size:12px;color:#aaa;">▶ Toque para o próximo</div>`;
+            
+            content.innerHTML =
+                `<div style="text-align:center;margin-bottom:12px;color:#888;font-size:12px;">📚 REVISÃO RÁPIDA — ${progresso}</div>` +
+                `<div style="text-align:center;font-size:72px;font-weight:900;color:var(--gold);text-shadow:0 0 25px rgba(241,196,15,0.7);font-family:'Noto Sans JP',sans-serif;line-height:1.1;margin-bottom:8px;">${k.kanji}</div>` +
+                `<div style="text-align:center;font-size:20px;font-weight:bold;color:#fff;">${k.sig[0]}</div>` +
+                `<div style="text-align:center;font-size:14px;color:#e67e22;margin-top:3px;font-weight:bold;">${k.romaji[0]}</div>` +
+                (hist !== '?' ? `<div style="margin-top:15px;font-size:13px;color:#aaa;font-style:italic;border-left:3px solid #3498db;padding-left:10px;line-height:1.4;text-align:left;">"${hist}"</div>` : '') +
+                `<div style="margin-top:15px;font-size:12px;color:#888;text-align:left;">Maestria: ${mData.maxStreak} sequência máxima · ${mData.errors} erros</div>` +
+                `<div style="margin-top:6px;font-size:13px;color:#aaa;text-align:left;">▶ Toque para o próximo</div>`;
             idx++;
-            mostrarDialogo(texto, mostrarCard, true);
         };
+        
         mostrarCard();
     }
 
