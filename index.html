@@ -112,6 +112,14 @@
                         <span id="gym-subtitle">Desafio do Líder</span>
                     </div>
                 </button>
+
+                <button class="btn-nintendo btn-explore" onclick="iniciarExploracao()">
+                    <span class="btn-icon" style="z-index: 2; position:relative;">🌸</span>
+                    <div class="btn-text" style="z-index: 2; position:relative;">
+                        <strong>Modo Exploração</strong>
+                        <span>Prática pacífica, sem dano</span>
+                    </div>
+                </button>
             </div>
             </div>
 
@@ -207,7 +215,7 @@
         
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
             <button onclick="analisarInimigo()" style="background:#3498db; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">🔍 Inspecionar</button>
-            <button onclick="usarPocao()" style="background:var(--success); flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Usar 🧪</button>
+            <button id="btn-potion-battle" onclick="usarPocao()" style="background:var(--success); flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Usar 🧪</button>
             <button onclick="fugir()" id="btn-fugir" style="background:#555; flex: 1; min-width: 28%; font-size:13px; padding: 10px 6px;">Fugir 🏃</button>
         </div>
         <div style="text-align:center; margin-top: 8px;">
@@ -395,7 +403,7 @@
     };
 
     let player = { hp: 100, maxHp: 100, level: 1, xp: 0, gold: 150, potions: 3, dex: {}, mastery: {} };
-    let inBattle = false, isGymMode = false, gymFightsLeft = 0, enemy = null, enemyTimer = null;
+    let inBattle = false, isGymMode = false, isExplorationMode = false, gymFightsLeft = 0, enemy = null, enemyTimer = null;
     let modoInvertido = false; // quando true: mostra significado, resposta é o Kanji
     let cartasPendentesGacha = [];
 
@@ -926,16 +934,27 @@ function init() {
         };
     }
 
-    function iniciarBatalha(gym) { 
+    function iniciarExploracao() {
+        if (tutAtivo()) return;
+        iniciarBatalha(false, true);
+    }
+
+    function iniciarBatalha(gym, exploration = false) { 
         isGymMode = gym; 
+        isExplorationMode = exploration;
         gymFightsLeft = gym ? 3 : 99999;
         document.getElementById('btn-fugir').disabled = gym; 
         document.getElementById('battle-log').innerHTML = ""; 
         document.getElementById('combo-text').style.display = "none";
         
         const arena = document.getElementById('battle-arena');
-        if (gym) { arena.classList.add('gym-mode'); arena.classList.remove('hunt-mode'); } 
-        else { arena.classList.add('hunt-mode'); arena.classList.remove('gym-mode'); }
+        arena.classList.remove('gym-mode', 'hunt-mode', 'exploration-mode');
+        if (gym) arena.classList.add('gym-mode');
+        else if (isExplorationMode) arena.classList.add('exploration-mode');
+        else arena.classList.add('hunt-mode');
+
+        const potionBtn = document.getElementById('btn-potion-battle');
+        if (potionBtn) potionBtn.style.display = isExplorationMode ? 'none' : '';
 
         trocarTela('screen-battle'); 
         // Garante UI correta do modo
@@ -974,7 +993,7 @@ function init() {
         // isEnraged adicionado aqui
         enemy = { ...baseK, rarityKey: rKey, rName: rData.name, rColor: rData.color, catchChance: rData.catchChance, maxHp: Math.floor(baseK.hpBase * buff), hp: Math.floor(baseK.hpBase * buff), atk: Math.floor(baseK.atk * buff), isBoss: isBoss, isEnraged: false };
         
-        document.getElementById('battle-title').innerText = isGymMode ? (isBoss ? "🔥 LÍDER DO GINÁSIO 🔥" : `GINÁSIO (Luta ${4 - gymFightsLeft}/3)`) : "Caçada Contínua";
+        document.getElementById('battle-title').innerText = isGymMode ? (isBoss ? "🔥 LÍDER DO GINÁSIO 🔥" : `GINÁSIO (Luta ${4 - gymFightsLeft}/3)`) : isExplorationMode ? "🌸 Modo Exploração" : "Caçada Contínua";
         
         const sprite = document.getElementById('enemy-sprite'); 
         // Modo invertido: mostra o significado, jogador escolhe o Kanji
@@ -1025,7 +1044,7 @@ function init() {
         if (pct > 50) fill.style.background = "linear-gradient(90deg, #2ecc71, #27ae60)"; else if (pct > 20) fill.style.background = "linear-gradient(90deg, #f1c40f, #f39c12)"; else fill.style.background = "linear-gradient(90deg, #e74c3c, #c0392b)";
     }
 
-    function iniciarTimerInimigo() { clearInterval(enemyTimer); enemyTimer = setInterval(() => { if (!inBattle) return; if (tutDanoAnulado()) return; player.hp -= enemy.atk; flashArenaVermelho(); criarTextoDano(`-${enemy.atk}`, 'var(--danger)', false); log(`O Kanji atacou! -${enemy.atk} HP.`, "#e74c3c"); atualizarHUD(); if (player.hp <= 0) gameOver(); }, 2000); }
+    function iniciarTimerInimigo() { if (isExplorationMode) { clearInterval(enemyTimer); return; } clearInterval(enemyTimer); enemyTimer = setInterval(() => { if (!inBattle) return; if (tutDanoAnulado()) return; player.hp -= enemy.atk; flashArenaVermelho(); criarTextoDano(`-${enemy.atk}`, 'var(--danger)', false); log(`O Kanji atacou! -${enemy.atk} HP.`, "#e74c3c"); atualizarHUD(); if (player.hp <= 0) gameOver(); }, 2000); }
 
     // --- FILTRO UNIVERSAL (Anti-Teclado Japonês) ---
     function sanearInput(texto) {
@@ -1645,7 +1664,7 @@ function init() {
         }
     }
 
-    function usarPocao() { if (tutAtivo()) return; if (player.potions > 0 && player.hp < player.maxHp) { player.potions--; player.hp = Math.min(player.maxHp, player.hp + 50); criarTextoDano("+50", "var(--success)", false); log("Poção usada!", "var(--success)"); salvarJogo(); document.getElementById('player-input').focus(); } }
+    function usarPocao() { if (tutAtivo() || isExplorationMode) return; if (player.potions > 0 && player.hp < player.maxHp) { player.potions--; player.hp = Math.min(player.maxHp, player.hp + 50); criarTextoDano("+50", "var(--success)", false); log("Poção usada!", "var(--success)"); salvarJogo(); document.getElementById('player-input').focus(); } }
     function fugir() {
         if (tutAtivo() && tutStep !== TUT_STEPS.AGUARDA_FUGA) return;
         clearInterval(enemyTimer); 
@@ -2209,6 +2228,7 @@ function init() {
             setTimeout(() => mostrarDialogo(
                 "Este é o <b style='color:var(--gold)'>Acampamento Base</b>.<br><br>" +
                 "🌿 <b>Caçada Contínua</b> — batalhe e capture Kanjis<br>" +
+                "🌸 <b>Modo Exploração</b> — prática pacífica, sem dano<br>" +
                 "⛩️ <b>Ginásio</b> — libera no Nível 3<br>" +
                 "🛒 Curar, poções e <b>Boosters</b> de cartas<br>" +
                 "📖 <b>KanjiDex</b> — sua coleção pessoal<br><br>" +
@@ -2232,7 +2252,8 @@ function init() {
                 "Um <b>Kanji selvagem</b> vai aparecer na arena.<br>" +
                 "Kanji é um caractere japonês — cada um tem um <b>significado em português</b>.<br><br>" +
                 "Seu objetivo: <b style='color:var(--gold)'>escolher a tradução correta</b> entre as 4 opções abaixo.<br><br>" +
-                "<span style='color:#aaa;font-size:13px;'>Enquanto você está aprendendo, o Kanji não te ataca. Relaxa! 😄</span>",
+                "<span style='color:#aaa;font-size:13px;'>Enquanto você está aprendendo, o Kanji não te ataca. Relaxa! 😄<br><br>" +
+                "💡 Também existe o <b style='color:#1abc9c'>Modo Exploração 🌸</b>, que é pacífico e perfeito para explorar e relaxar.</span>",
                 () => { spawnEnemy(); }
             );
             break;
@@ -2669,18 +2690,22 @@ function init() {
             titulo: "🌿 Caçada vs ⛩️ Ginásio",
             icone: "🗺️",
             conteudo: `
-                <p style="font-size:14px; line-height:1.5; color:#ddd;">Existem dois modos de batalha no menu principal:</p>
+                <p style="font-size:14px; line-height:1.5; color:#ddd;">Existem três modos de batalha no menu principal:</p>
                 <div style="display:flex; flex-direction:column; gap:10px; margin:12px 0;">
                     <div style="background:rgba(39,174,96,0.15); border:1px solid #27ae60; border-radius:10px; padding:14px;">
                         <div style="font-size:15px; font-weight:bold; color:#2ecc71;">🌿 Caçada Contínua</div>
                         <div style="font-size:13px; color:#ccc; margin-top:5px; line-height:1.5;">Batalhas infinitas, uma por uma. Ótimo para treinar, ganhar ouro e aprender no seu ritmo. Você pode fugir a qualquer hora.</div>
+                    </div>
+                    <div style="background:rgba(26,188,156,0.15); border:1px solid #1abc9c; border-radius:10px; padding:14px;">
+                        <div style="font-size:15px; font-weight:bold; color:#1abc9c;">🌸 Modo Exploração</div>
+                        <div style="font-size:13px; color:#ccc; margin-top:5px; line-height:1.5;">A mesma caçada, mas sem tomar dano e sem poções. Perfeito para relaxar e praticar no seu ritmo, sem pressão.</div>
                     </div>
                     <div style="background:rgba(142,68,173,0.15); border:1px solid #8e44ad; border-radius:10px; padding:14px;">
                         <div style="font-size:15px; font-weight:bold; color:#9b59b6;">⛩️ Ginásio Kanjimon</div>
                         <div style="font-size:13px; color:#ccc; margin-top:5px; line-height:1.5;">Sequência de 3 lutas desafiadoras + um <b style="color:#e74c3c">Líder do Ginásio</b> poderoso ao final. Não dá para fugir!</div>
                     </div>
                 </div>
-                <p style="font-size:12px; color:#aaa;">💡 Recomendamos começar pela Caçada para se acostumar.</p>
+                <p style="font-size:12px; color:#aaa;">💡 Recomendamos começar pela Caçada ou Exploração para se acostumar.</p>
             `
         },
         {
@@ -2732,6 +2757,9 @@ function init() {
                     </div>
                     <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px;">
                         <span style="font-size:20px;">🌿</span><span>Comece pela <b>Caçada Contínua</b> para treinar</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px;">
+                        <span style="font-size:20px;">🌸</span><span><b>Modo Exploração</b> é pacífico — sem dano, só prática</span>
                     </div>
                     <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px;">
                         <span style="font-size:20px;">❓</span><span>Este tutorial fica disponível em <b>Como Jogar</b> no menu</span>
