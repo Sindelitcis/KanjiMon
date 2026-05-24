@@ -163,6 +163,7 @@
         .btn-explore { background: linear-gradient(135deg, #1abc9c, #16a085) !important; box-shadow: 0 6px 0 #0e6655 !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         button.btn-explore:hover:not(:disabled) { box-shadow: 0 4px 0 #0e6655 !important; }
         button.btn-explore:active:not(:disabled) { box-shadow: 0 0 0 #0e6655 !important; }
+        .btn-explore .btn-bg-explore { position: absolute; inset: 0; background: url('assets/fundo-exploracao.jpg') center/cover; opacity: 0.3; mix-blend-mode: overlay; pointer-events: none; }
         
         /* Pokedex centralizada e com limite de largura */
         .btn-pokedex { background: #34495e !important; box-shadow: 0 6px 0 #1a252f !important; font-size: 16px; text-shadow: none; margin: 0 auto !important; max-width: 450px;}
@@ -352,7 +353,7 @@
         }
 
         .battle-arena.exploration-mode { 
-            background: linear-gradient(rgba(5,20,35,0.4),rgba(0,10,25,0.5)), url('assets/exploracao.jpg');
+            background: linear-gradient(rgba(5,20,35,0.4),rgba(0,10,25,0.5)), url('assets/gramado.png');
             background-size: cover; 
             background-position: center;
             border-color: #1abc9c; 
