@@ -1,19 +1,20 @@
 {
   "name": "KanjiMon Ultimate",
   "short_name": "KanjiMon",
-  "start_url": "./",
+  "start_url": "./classic/",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0a0a12",
   "theme_color": "#0a0a12",
   "description": "Treine Kanjis, abra boosters e torne-se um Mestre KanjiMon!",
   "icons": [
     {
-      "src": "assets/KanjiMon.png",
+      "src": "classic/assets/KanjiMon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/KanjiMon.png",
+      "src": "classic/assets/KanjiMon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
